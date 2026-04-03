@@ -1,141 +1,138 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Search, Globe, ChevronDown, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Globe, ChevronDown, Menu, X, ArrowRight, Activity, Layers, Bone, Target } from 'lucide-react';
-import Link from 'next/link';
-
-const navItems = [
-  { name: 'Products', href: '#', hasDropdown: true },
-  { name: 'Solutions', href: '#' },
-  { name: 'About', href: '#' },
-  { name: 'Contact', href: '#' },
-];
+import { ORTHOPEDIC_CATEGORIES, OTHER_SERVICES } from '../constants';
 
 export default function Header() {
-  const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(ORTHOPEDIC_CATEGORIES[0]);
 
   return (
-    <header className="relative bg-white py-4 border-b border-primary/10 shadow-xs z-50">
-      <div className="max-w-[1920px] mx-auto px-8 flex items-center justify-between">
-        
-        {/* Authoritative Logo */}
-        <Link href="/" className="group flex items-center gap-2">
-          <div className="text-3xl font-black tracking-tighter text-on-surface">
-            Shashwat
-            <span className="text-primary italic font-black">.</span>
-          </div>
-        </Link>
-
-        {/* High-Fidelity Navigation with Hover Dropdown */}
-        <nav className="hidden lg:flex items-center gap-10">
-          {navItems.map((item) => (
+    <header className="bg-surface/85 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-outline-variant/10">
+      <nav className="flex justify-between items-center w-full px-8 h-16 max-w-[1920px] mx-auto">
+        <div className="flex items-center gap-8">
+          <span className="text-xl font-bold text-primary tracking-tighter font-headline cursor-pointer">Shashwat</span>
+          <div className="hidden md:flex gap-6 items-center">
             <div
-              key={item.name}
-              className="relative py-2 group"
-              onMouseEnter={() => setActiveItem(item.name)}
-              onMouseLeave={() => setActiveItem(null)}
+              className="relative h-16 flex items-center"
+              onMouseEnter={() => setIsProductsOpen(true)}
+              onMouseLeave={() => setIsProductsOpen(false)}
             >
-              <Link
-                href={item.href}
-                className="text-[11px] font-black uppercase tracking-[0.25em] text-on-surface hover:text-primary transition-all duration-300 flex items-center gap-1"
-              >
-                {item.name}
-                {item.hasDropdown && (
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeItem === item.name ? 'rotate-180' : ''}`} />
-                )}
-              </Link>
+              <button className="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors font-headline tracking-tight text-sm font-semibold">
+                Products <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-              {/* Animated Underline Indicator */}
-              {activeItem === item.name && (
-                <motion.div
-                  layoutId="nav-underline"
-                  className="absolute bottom-[-18px] left-0 right-0 h-1 bg-primary rounded-full shadow-[0_0_10px_rgba(0,71,169,0.5)] z-20"
-                />
-              )}
+              <AnimatePresence>
+                {isProductsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-16 left-0 w-[800px] bg-white rounded-b-2xl shadow-2xl border border-outline-variant/10 overflow-hidden flex"
+                  >
+                    {/* Left Side: Categories */}
+                    <div className="w-1/3 bg-surface-container-low p-6 border-r border-outline-variant/10">
+                      <h3 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 mb-4">Orthopedic</h3>
+                      <div className="space-y-1">
+                        {ORTHOPEDIC_CATEGORIES.map((cat) => (
+                          <button
+                            key={cat.id}
+                            onMouseEnter={() => setActiveCategory(cat)}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 text-left ${activeCategory.id === cat.id
+                                ? 'bg-white text-primary shadow-sm'
+                                : 'text-on-surface-variant/70 hover:bg-white/50'
+                              }`}
+                          >
+                            <cat.icon className="w-4 h-4" />
+                            <span className="text-sm font-semibold">{cat.name}</span>
+                          </button>
+                        ))}
+                      </div>
 
-              {/* Products Dropdown Menu */}
-              {item.hasDropdown && (
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-6 transition-all duration-300 ${activeItem === item.name ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-                  <div className="w-64 bg-white rounded-2xl shadow-2xl border border-primary/5 p-4 flex flex-col gap-1">
-                    {[
-                      { name: 'Trauma Systems', icon: Activity },
-                      { name: 'Spinal Implants', icon: Layers },
-                      { name: 'Sports Medicine', icon: Bone },
-                      { name: 'CMF Solutions', icon: Target }
-                    ].map((sub) => (
-                      <Link 
-                        key={sub.name} 
-                        href="#" 
-                        className="flex items-center gap-3 p-3 rounded-xl hover:bg-primary/5 text-sm font-bold text-on-surface group/sub transition-all"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover/sub:bg-primary group-hover/sub:text-white transition-all">
-                           <sub.icon className="w-4 h-4" />
+                      <div className="mt-8 pt-6 border-t border-outline-variant/10">
+                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 mb-4">Other Services</h3>
+                        <div className="grid grid-cols-1 gap-2">
+                          {OTHER_SERVICES.slice(0, 4).map((service) => (
+                            <button key={service.name} className="flex items-center gap-2 text-xs text-on-surface-variant/60 hover:text-primary transition-colors text-left">
+                              <service.icon className="w-3 h-3" />
+                              <span>{service.name}</span>
+                            </button>
+                          ))}
                         </div>
-                        {sub.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
+                      </div>
+                    </div>
 
-        {/* Interface Controls */}
-        <div className="flex items-center gap-6">
-          
-          {/* Digital Search Pill */}
-          <div className="hidden md:flex items-center relative group">
-            <Search className="absolute left-4 w-4 h-4 text-on-surface-variant/40 group-focus-within:text-primary transition-colors" />
-            <input 
-              type="text" 
-              placeholder="Clinical Database" 
-              className="pl-11 pr-6 py-2.5 rounded-full text-xs font-bold transition-all duration-500 outline-hidden border border-primary/10 w-48 lg:w-64 focus:w-80 bg-primary/5 focus:bg-white focus:border-primary/40 focus:shadow-xl"
+                    {/* Right Side: Subcategories/Items */}
+                    <div className="w-2/3 p-8 bg-white">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-primary/10 rounded-lg">
+                            <activeCategory.icon className="w-6 h-6 text-primary" />
+                          </div>
+                          <h4 className="text-xl font-headline font-bold text-on-surface">{activeCategory.name}</h4>
+                        </div>
+                        <button className="text-xs font-bold text-primary flex items-center gap-1 hover:underline">
+                          View All <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        {activeCategory.items.map((item) => (
+                          <a
+                            key={item.name}
+                            href="#"
+                            className="group flex flex-col p-3 rounded-xl hover:bg-surface-container-low transition-colors"
+                          >
+                            <span className="text-sm font-semibold text-on-surface group-hover:text-primary transition-colors">{item.name}</span>
+                            <span className="text-[10px] text-on-surface-variant/50 mt-1">Advanced surgical solutions for {item.name.toLowerCase()} procedures.</span>
+                          </a>
+                        ))}
+                      </div>
+
+                      <div className="mt-12 p-4 bg-primary/5 rounded-xl border border-primary/10 flex items-center justify-between">
+                        <div>
+                          <p className="text-xs font-bold text-primary">Need technical assistance?</p>
+                          <p className="text-[10px] text-on-surface-variant/70">Our clinical specialists are available 24/7.</p>
+                        </div>
+                        <button className="px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg">Contact Support</button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {['Solutions', 'About', 'Contact'].map((item) => (
+              <a
+                key={item}
+                href="#"
+                className="text-on-surface-variant hover:text-primary transition-colors font-headline tracking-tight text-sm font-semibold"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center bg-surface-container-low rounded-lg px-3 py-1.5 border border-outline-variant/10">
+            <Search className="text-on-surface-variant/40 w-4 h-4 mr-2" />
+            <input
+              type="text"
+              placeholder="Search curated database..."
+              className="bg-transparent border-none focus:outline-none text-xs w-48 font-label"
             />
           </div>
 
-          {/* Language Switcher */}
-          <button className="p-2 rounded-full transition-all border border-primary/5 hover:bg-primary/5 text-on-surface">
-            <Globe className="w-5 h-5" />
-          </button>
-
-          {/* Mobile Menu Toggle */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl border border-primary/10 text-primary"
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button className="p-2 text-on-surface-variant hover:bg-surface-container-low transition-all duration-300 rounded-full">
+              <Globe className="w-5 h-5" />
+            </button>
+          </div>
         </div>
-      </div>
-
-
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full inset-x-0 bg-white shadow-2xl p-8 border-b-2 border-primary/5 lg:hidden"
-          >
-            <div className="flex flex-col gap-6">
-              {navItems.map((item) => (
-                <Link 
-                  key={item.name} 
-                  href={item.href}
-                  className="text-lg font-black text-on-surface flex items-center justify-between group"
-                >
-                  {item.name}
-                  <ArrowRight className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </nav>
     </header>
   );
 }
