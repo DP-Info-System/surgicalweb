@@ -128,3 +128,13 @@ export const BODY_PART_MAPPING: Record<string, string[]> = {
   'face': ['cmf'],
   'leg': ['trauma', 'external-fixator']
 };
+
+export const ANATOMICAL_HOTSPOTS = [
+  { id: 'face', label: 'Cranio Maxillofacial', category: 'CMF', top: '6.5%', left: '50%', delay: 0.2, description: 'Advanced solutions for facial trauma and reconstructive surgery.' },
+  { id: 'shoulder', label: 'Shoulder Arthroplasty', category: 'Orthopedics', top: '20.5%', left: '39%', delay: 0.5, description: 'Total and reverse shoulder replacement systems.' },
+  { id: 'cardiac', label: 'Cardiac Implants', category: 'Cardiac', top: '28%', left: '54%', delay: 0, description: 'Specialized implants for cardiovascular procedures.' },
+  { id: 'spine', label: 'Disc Replacement', category: 'Spine', top: '42%', left: '50%', delay: 1.2, description: 'Motion-preserving spinal disc replacement technology.' },
+  { id: 'hip', label: 'Hip Reconstruction', category: 'Orthopedics', top: '52%', left: '43%', delay: 0.8, description: 'Primary and revision hip arthroplasty solutions.' },
+  { id: 'knee', label: 'Knee Surgery Portfolio', category: 'Orthopedics', top: '73.5%', left: '42%', delay: 1.5, description: 'Comprehensive knee systems for all surgical approaches.' },
+  { id: 'leg', label: 'Trauma & Fixators', category: 'Trauma', top: '91.5%', left: '42.5%', delay: 1.8, description: 'External and internal fixation for complex trauma.' },
+];

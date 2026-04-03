@@ -1,8 +1,7 @@
-'use client';
-
 import { motion } from 'motion/react';
 import AnatomicalModel from './AnatomicalModel';
-import { Target, Activity, ShieldCheck, Microscope, Layers } from 'lucide-react';
+import { Target, Activity, ShieldCheck, Microscope, Layers, ArrowRight } from 'lucide-react';
+import { ANATOMICAL_HOTSPOTS } from '../constants';
 
 interface BodyExplorerSectionProps {
   onHotspotClick: (id: string) => void;
@@ -17,10 +16,10 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[160px] opacity-60 pointer-events-none" />
       
       <div className="max-w-[1920px] mx-auto px-8 relative z-10">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 2xl:gap-24 items-center">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 2xl:gap-32 items-start">
           
-          {/* Left Content Column */}
-          <div className="xl:col-span-12 2xl:col-span-5 space-y-16">
+          {/* Left Content Column - Detailed Labels */}
+          <div className="xl:col-span-6 2xl:col-span-6 space-y-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -29,69 +28,75 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-[1px] bg-primary/30" />
-                <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Curation Protocol</h3>
+                <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Anatomical Portfolio</h3>
               </div>
-              <h2 className="text-6xl lg:text-[80px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-10">
+              <h2 className="text-5xl lg:text-[70px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-8">
                 Explore Our <br />
-                <span className="text-primary inline-block transform -skew-x-6">Anatomical</span> Solutions
+                <span className="text-primary inline-block transform -skew-x-6">Surgical</span> Solutions
               </h2>
-              <p className="text-xl text-on-surface-variant/70 leading-relaxed max-w-xl font-body font-medium">
-                Shashwat provides a curated ecosystem of surgical innovations. Interact with the anatomical map to discover procedures-specific systems for trauma, spine, and joint reconstruction.
+              <p className="text-lg text-on-surface-variant/70 leading-relaxed max-w-xl font-body font-medium">
+                Select a region on the anatomical model to discover procedures-specific systems for trauma, spine, and joint reconstruction.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { icon: Target, title: 'Surgical Accuracy', desc: 'Hardware designed for complex biomechanical stability.', color: 'text-blue-600', bg: 'bg-blue-50' },
-                { icon: Activity, title: 'Rapid Recovery', desc: 'Minimally invasive designs to reduce patient downtime.', color: 'text-teal-600', bg: 'bg-teal-50' },
-                { icon: ShieldCheck, title: 'Clinical Proof', desc: 'Systems validated through thousands of successful procedures.', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-                { icon: Microscope, title: 'Global Standards', desc: 'Universal compatibility across surgical theatres.', color: 'text-cyan-600', bg: 'bg-cyan-50' }
-              ].map((item, idx) => (
+            <div className="relative 2xl:h-[900px] flex flex-col gap-4 2xl:block w-full max-w-2xl">
+              {ANATOMICAL_HOTSPOTS.map((item, idx) => (
                 <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  key={item.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.05 }}
                   viewport={{ once: true }}
-                  className="group relative p-8 rounded-3xl bg-white border border-outline-variant/10 shadow-sm transition-all hover:shadow-2xl hover:border-primary/30 hover:-translate-y-1 overflow-hidden"
+                  onClick={() => onHotspotClick(item.id)}
+                  className={`group relative 2xl:absolute w-full p-5 rounded-2xl border transition-all cursor-pointer overflow-hidden ${
+                    activeId === item.id 
+                    ? 'bg-primary/5 border-primary/30 shadow-lg 2xl:translate-x-4' 
+                    : 'bg-white border-outline-variant/10 hover:border-primary/20 hover:bg-surface-container-low/50 2xl:hover:translate-x-2'
+                  }`}
+                  style={{
+                    top: typeof window !== 'undefined' && window.innerWidth >= 1536 ? item.top : 'auto',
+                  }}
                 >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-linear-to-br from-primary/5 to-transparent rounded-bl-[100%] transition-transform group-hover:scale-150" />
-                  
-                  <div className={`w-14 h-14 flex items-center justify-center ${item.bg} rounded-2xl mb-6 shadow-xs group-hover:scale-110 transition-transform`}>
-                    <item.icon className={`w-7 h-7 ${item.color}`} />
+                  <div className="flex items-center justify-between gap-6">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="text-[10px] font-black text-primary/40 uppercase tracking-widest">{item.category}</span>
+                        <div className={`w-1.5 h-1.5 rounded-full ${activeId === item.id ? 'bg-primary animate-pulse' : 'bg-transparent'}`} />
+                      </div>
+                      <h4 className={`font-headline font-black text-lg tracking-tight transition-colors ${activeId === item.id ? 'text-primary' : 'text-on-surface group-hover:text-primary'}`}>
+                        {item.label}
+                      </h4>
+                      <p className={`text-xs mt-1 leading-relaxed transition-opacity ${activeId === item.id ? 'text-on-surface-variant/80' : 'text-on-surface-variant/50'}`}>
+                        {item.description}
+                      </p>
+                    </div>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${activeId === item.id ? 'bg-primary text-white scale-110 shadow-md' : 'bg-surface-container-high text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary'}`}>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
                   </div>
-                  
-                  <h4 className="font-headline font-black text-on-surface text-lg mb-3 tracking-tight group-hover:text-primary transition-colors">{item.title}</h4>
-                  <p className="text-sm text-on-surface-variant/60 leading-relaxed font-body font-medium">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
           </div>
 
           {/* Right Anatomical Column - Premium HUD design */}
-          <div className="xl:col-span-12 2xl:col-span-7 flex justify-center items-center relative py-12">
+          <div className="xl:col-span-6 2xl:col-span-6 flex justify-center items-center relative py-12">
             
             {/* Technical HUD Overlays */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                <motion.div 
                  animate={{ rotate: 360 }}
                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                 className="w-[600px] h-[600px] border border-primary/5 rounded-full" 
+                 className="w-[500px] h-[500px] border border-primary/5 rounded-full" 
                />
                <motion.div 
                  animate={{ rotate: -360 }}
                  transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                 className="absolute w-[650px] h-[650px] border border-dashed border-primary/10 rounded-full" 
+                 className="absolute w-[550px] h-[550px] border border-dashed border-primary/10 rounded-full" 
                />
-               
-               {/* Scanner Brackets */}
-               <div className="absolute top-0 left-1/2 -translate-x-[350px] w-8 h-8 border-t-2 border-l-2 border-primary/20 rounded-tl-xl" />
-               <div className="absolute top-0 left-1/2 translate-x-[318px] w-8 h-8 border-t-2 border-r-2 border-primary/20 rounded-tr-xl" />
-               <div className="absolute bottom-0 left-1/2 -translate-x-[350px] w-8 h-8 border-b-2 border-l-2 border-primary/20 rounded-bl-xl" />
-               <div className="absolute bottom-0 left-1/2 translate-x-[318px] w-8 h-8 border-b-2 border-r-2 border-primary/20 rounded-br-xl" />
             </div>
 
-            <div className="relative w-full max-w-2xl h-[800px] z-10">
+            <div className="relative w-full max-w-xl h-[900px] z-10">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -103,23 +108,15 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
               </motion.div>
 
               {/* Precise Digital Indicator */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-center">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-center w-full">
                 <div className="flex items-center gap-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  <p className="text-[11px] font-black text-primary uppercase tracking-[0.5em] brightness-90">Digital Mapping V2</p>
+                  <p className="text-[11px] font-black text-primary uppercase tracking-[0.5em] brightness-90">Digital Anatomy V3</p>
                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                 </div>
                 <p className="text-xs font-black text-on-surface-variant uppercase tracking-widest bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border border-primary/10 shadow-xl">
-                  Select <span className="text-primary italic">target</span> region
+                  {activeId ? `Selected: ${ANATOMICAL_HOTSPOTS.find(h => h.id === activeId)?.label}` : 'Select anatomical target'}
                 </p>
-                <motion.div 
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                  className="h-10 flex flex-col items-center gap-1 opacity-40"
-                >
-                   <div className="w-0.5 h-2 bg-primary rounded-full" />
-                   <div className="w-0.5 h-6 bg-primary/40 rounded-full" />
-                </motion.div>
               </div>
             </div>
 
@@ -136,7 +133,6 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
                </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

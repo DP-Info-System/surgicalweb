@@ -43,11 +43,11 @@ export default function Header() {
                             onMouseEnter={() => setActiveCategory(cat)}
                             className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all duration-200 text-left ${activeCategory.id === cat.id
                                 ? 'bg-white text-primary shadow-sm'
-                                : 'text-on-surface-variant/70 hover:bg-white/50'
+                                : 'text-primary/70 hover:bg-white/50'
                               }`}
                           >
-                            <cat.icon className="w-4 h-4" />
-                            <span className="text-sm font-semibold">{cat.name}</span>
+                            <cat.icon className="w-5 h-5" />
+                            <span className="text-base font-bold">{cat.name}</span>
                           </button>
                         ))}
                       </div>
@@ -56,7 +56,7 @@ export default function Header() {
                         <h3 className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/40 mb-4">Other Services</h3>
                         <div className="grid grid-cols-1 gap-2">
                           {OTHER_SERVICES.slice(0, 4).map((service) => (
-                            <button key={service.name} className="flex items-center gap-2 text-xs text-on-surface-variant/60 hover:text-primary transition-colors text-left">
+                            <button key={service.name} className="flex items-center gap-2 text-xs text-primary/70 hover:text-primary transition-colors text-left font-medium">
                               <service.icon className="w-3 h-3" />
                               <span>{service.name}</span>
                             </button>
@@ -86,8 +86,8 @@ export default function Header() {
                             href="#"
                             className="group flex flex-col p-3 rounded-xl hover:bg-surface-container-low transition-colors"
                           >
-                            <span className="text-sm font-semibold text-on-surface group-hover:text-primary transition-colors">{item.name}</span>
-                            <span className="text-[10px] text-on-surface-variant/50 mt-1">Advanced surgical solutions for {item.name.toLowerCase()} procedures.</span>
+                            <span className="text-base font-bold text-primary group-hover:text-primary-container transition-colors">{item.name}</span>
+                            <span className="text-[11px] text-primary/50 mt-1 font-medium">Advanced surgical solutions for {item.name.toLowerCase()} procedures.</span>
                           </a>
                         ))}
                       </div>
