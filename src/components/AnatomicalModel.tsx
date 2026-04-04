@@ -26,30 +26,50 @@ export default function AnatomicalModel({ onHotspotClick, activeId }: Anatomical
 
         {/* Hotspots Overlay - Maps exactly to the natural image dimensions */}
         <div className="absolute inset-0 pointer-events-none">
-          {ANATOMICAL_HOTSPOTS.map((spot) => (
-            <div
-              key={spot.id}
-              className="absolute group z-20 pointer-events-auto"
-              style={{ top: spot.top, left: spot.left }}
-              onClick={() => onHotspotClick(spot.id)}
-            >
-              <div className="relative w-6 h-6 cursor-pointer -translate-x-1/2 -translate-y-1/2">
+          {ANATOMICAL_HOTSPOTS.map((spot) => {
+            const isActive = activeId === spot.id;
+            return (
+              <div
+                key={spot.id}
+                className="absolute group z-20 pointer-events-auto"
+                style={{ top: spot.top, left: spot.left }}
+                onClick={() => onHotspotClick(spot.id)}
+              >
+                {/* Outer pulse ring */}
                 <div
-                  className={`absolute inset-0 rounded-full pulse-ring ${activeId === spot.id ? 'bg-red-500/40 scale-150' : 'bg-red-500/20'}`}
+                  className={`absolute -inset-3 rounded-full ${isActive ? 'bg-primary/15' : 'bg-primary/8'} pulse-ring`}
                   style={{ animationDelay: `${spot.delay}s` }}
                 ></div>
-                <div className={`absolute inset-[30%] rounded-full shadow-[0_0_12px_rgba(239,68,68,0.5)] transition-all duration-300 ${activeId === spot.id ? 'bg-red-600 scale-125' : 'bg-red-500'}`}></div>
-              </div>
+                
+                {/* Middle ring */}
+                <div className={`absolute -inset-1.5 rounded-full border-2 transition-all duration-300 ${isActive ? 'border-primary/60 scale-110' : 'border-primary/25 group-hover:border-primary/40'}`}></div>
+                
+                {/* Inner dot container */}
+                <div className="relative w-5 h-5 cursor-pointer -translate-x-1/2 -translate-y-1/2">
+                  {/* Glow effect */}
+                  <div className={`absolute inset-0 rounded-full blur-md transition-all duration-300 ${isActive ? 'bg-primary/60' : 'bg-primary/30 group-hover:bg-primary/40'}`}></div>
+                  
+                  {/* Solid dot */}
+                  <div className={`absolute inset-0 rounded-full transition-all duration-300 shadow-lg ${isActive ? 'bg-primary scale-125 shadow-primary/40' : 'bg-primary/80 group-hover:bg-primary group-hover:scale-110'}`}></div>
+                  
+                  {/* Inner highlight */}
+                  <div className="absolute inset-[25%] rounded-full bg-white/40"></div>
+                </div>
 
-              {/* Tooltip */}
-              <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-4 transition-all duration-300 pointer-events-none z-50 ${activeId === spot.id ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'}`}>
-                <div className="glass-panel px-4 py-2 rounded-xl shadow-xl border border-white/20 whitespace-nowrap">
-                  <span className="text-[10px] font-bold text-red-600 block uppercase tracking-tighter">{spot.category}</span>
-                  <span className="text-sm font-semibold text-on-surface">{spot.label}</span>
+                {/* Tooltip */}
+                <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-4 transition-all duration-300 pointer-events-none z-50 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0'}`}>
+                  <div className="glass-panel px-4 py-2.5 rounded-xl shadow-xl border border-primary/20 whitespace-nowrap backdrop-blur-xl">
+                    <span className="text-[9px] font-bold text-primary block uppercase tracking-widest">{spot.category}</span>
+                    <span className="text-sm font-semibold text-on-surface mt-0.5 block">{spot.label}</span>
+                  </div>
+                  {/* Tooltip arrow */}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px">
+                    <div className="w-2 h-2 bg-white rotate-45 border-r border-b border-primary/20"></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

@@ -124,8 +124,10 @@ export const OTHER_SERVICES = [
 export const BODY_PART_MAPPING: Record<string, string[]> = {
   'knee': ['arthroscopy', 'arthroplasty'],
   'spine': ['spine'],
-  'shoulder': ['arthroscopy'],
+  'shoulder': ['arthroscopy', 'arthroplasty'],
   'face': ['cmf'],
+  'hip': ['arthroplasty'],
+  'cardiac': [],
   'leg': ['trauma', 'external-fixator']
 };
 
