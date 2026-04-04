@@ -13,7 +13,7 @@ const slides = [
     description: 'Advanced plating and nailing systems designed for complex fracture management and rapid recovery.',
     color: 'from-blue-600 to-blue-400',
     icon: Activity,
-    bgImage: '/images/hero/trauma.png',
+    bgImage: '/images/trauma.jpg',
   },
   {
     id: 'spine',
@@ -22,7 +22,7 @@ const slides = [
     description: 'Next-generation disc replacement and stabilization systems for degenerative spinal conditions.',
     color: 'from-indigo-600 to-indigo-400',
     icon: Layers,
-    bgImage: '/images/hero/spine.png',
+    bgImage: '/images/spine.jpg',
   },
   {
     id: 'sports',
@@ -31,7 +31,7 @@ const slides = [
     description: 'High-fidelity arthroscopy instruments and implants for shoulder, knee, and hip reconstruction.',
     color: 'from-cyan-600 to-cyan-400',
     icon: Bone,
-    bgImage: '/images/hero/sports.png',
+    bgImage: '/images/sports.jpg',
   }
 ];
 

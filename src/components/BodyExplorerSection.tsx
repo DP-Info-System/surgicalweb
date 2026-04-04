@@ -10,36 +10,39 @@ interface BodyExplorerSectionProps {
 
 export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyExplorerSectionProps) {
   return (
-    <section className="relative py-32 bg-white overflow-hidden">
+    <section className="relative pt-12 pb-16 bg-white overflow-hidden">
       {/* Clinical Atmospheric Depth (Radial Wash) */}
       <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[160px] opacity-60 pointer-events-none" />
       
       <div className="max-w-[1920px] mx-auto px-8 relative z-10">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 2xl:gap-32 items-start">
+        
+        {/* Full-width Title Section Moved Above the Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-8 lg:mb-12 max-w-5xl"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-[1px] bg-primary/30" />
+            <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Anatomical Portfolio</h3>
+          </div>
+          <h2 className="text-5xl lg:text-[70px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-6">
+            Explore Our <br className="hidden lg:block"/>
+            <span className="text-primary inline-block transform -skew-x-6">Surgical</span> Solutions
+          </h2>
+          <p className="text-lg text-on-surface-variant/70 leading-relaxed font-body font-medium">
+            Select a region on the anatomical model to discover procedures-specific systems for trauma, spine, and joint reconstruction.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 lg:gap-12 2xl:gap-32 items-start">
           
           {/* Left Content Column - Detailed Labels */}
-          <div className="xl:col-span-6 2xl:col-span-6 space-y-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-[1px] bg-primary/30" />
-                <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Anatomical Portfolio</h3>
-              </div>
-              <h2 className="text-5xl lg:text-[70px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-8">
-                Explore Our <br />
-                <span className="text-primary inline-block transform -skew-x-6">Surgical</span> Solutions
-              </h2>
-              <p className="text-lg text-on-surface-variant/70 leading-relaxed max-w-xl font-body font-medium">
-                Select a region on the anatomical model to discover procedures-specific systems for trauma, spine, and joint reconstruction.
-              </p>
-            </motion.div>
-
-            <div className="relative 2xl:h-[900px] flex flex-col gap-4 2xl:block w-full max-w-2xl">
+          <div className="xl:col-span-6 2xl:col-span-6">
+            <div className="relative h-auto 2xl:h-[900px] flex flex-col gap-2.5 2xl:block w-full max-w-2xl">
               {ANATOMICAL_HOTSPOTS.map((item, idx) => (
                 <motion.div 
                   key={item.id}
@@ -48,7 +51,7 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
                   transition={{ duration: 0.5, delay: idx * 0.05 }}
                   viewport={{ once: true }}
                   onClick={() => onHotspotClick(item.id)}
-                  className={`group relative 2xl:absolute w-full p-5 rounded-2xl border transition-all cursor-pointer overflow-hidden ${
+                  className={`group relative 2xl:absolute w-full p-3.5 px-5 rounded-[14px] border transition-all cursor-pointer overflow-hidden ${
                     activeId === item.id 
                     ? 'bg-primary/5 border-primary/30 shadow-lg 2xl:translate-x-4' 
                     : 'bg-white border-outline-variant/10 hover:border-primary/20 hover:bg-surface-container-low/50 2xl:hover:translate-x-2'
@@ -57,21 +60,21 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
                     top: typeof window !== 'undefined' && window.innerWidth >= 1536 ? item.top : 'auto',
                   }}
                 >
-                  <div className="flex items-center justify-between gap-6">
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-1">
-                        <span className="text-[10px] font-black text-primary/40 uppercase tracking-widest">{item.category}</span>
-                        <div className={`w-1.5 h-1.5 rounded-full ${activeId === item.id ? 'bg-primary animate-pulse' : 'bg-transparent'}`} />
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[9px] font-black text-primary/40 uppercase tracking-widest">{item.category}</span>
+                        <div className={`w-1 h-1 rounded-full ${activeId === item.id ? 'bg-primary animate-pulse' : 'bg-transparent'}`} />
                       </div>
-                      <h4 className={`font-headline font-black text-lg tracking-tight transition-colors ${activeId === item.id ? 'text-primary' : 'text-on-surface group-hover:text-primary'}`}>
+                      <h4 className={`font-headline font-bold text-[15px] tracking-tight transition-colors ${activeId === item.id ? 'text-primary' : 'text-on-surface group-hover:text-primary'}`}>
                         {item.label}
                       </h4>
-                      <p className={`text-xs mt-1 leading-relaxed transition-opacity ${activeId === item.id ? 'text-on-surface-variant/80' : 'text-on-surface-variant/50'}`}>
+                      <p className={`text-[11px] leading-snug transition-opacity ${activeId === item.id ? 'text-on-surface-variant/80' : 'text-on-surface-variant/50'}`}>
                         {item.description}
                       </p>
                     </div>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${activeId === item.id ? 'bg-primary text-white scale-110 shadow-md' : 'bg-surface-container-high text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary'}`}>
-                      <ArrowRight className="w-4 h-4" />
+                    <div className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-all ${activeId === item.id ? 'bg-primary text-white scale-110 shadow-md' : 'bg-surface-container-high text-on-surface-variant group-hover:bg-primary/10 group-hover:text-primary'}`}>
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </div>
                 </motion.div>
@@ -80,7 +83,7 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
           </div>
 
           {/* Right Anatomical Column - Premium HUD design */}
-          <div className="xl:col-span-6 2xl:col-span-6 flex justify-center items-center relative py-12">
+          <div className="xl:col-span-6 2xl:col-span-6 flex justify-center items-start relative px-4">
             
             {/* Technical HUD Overlays */}
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
@@ -96,7 +99,7 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
                />
             </div>
 
-            <div className="relative w-full max-w-xl h-[900px] z-10">
+            <div className="relative w-full max-w-xl h-[650px] lg:h-[700px] 2xl:h-[900px] z-10 transition-all duration-300">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
