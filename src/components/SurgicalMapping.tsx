@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'motion/react';
 import { ORTHOPEDIC_CATEGORIES } from '../constants';
 import { ArrowRight, Microscope as Stethoscope } from 'lucide-react';
@@ -7,14 +8,31 @@ import { ArrowRight, Microscope as Stethoscope } from 'lucide-react';
 export default function SurgicalMapping() {
   return (
     <section className="max-w-[1920px] mx-auto px-8 py-32 bg-white">
-      <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-20">
-        <span className="text-primary font-bold tracking-[0.2em] text-[10px] uppercase mb-6 block">Surgical Mapping</span>
-        <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-on-surface leading-[1.1] mb-6 tracking-tighter">
-          Integrated Solutions for Every <span className="text-primary-container">Procedure</span>
-        </h2>
-        <p className="text-lg text-on-surface-variant/70 leading-relaxed font-body">
-          Our portfolio covers the complete spectrum of orthopedic and spinal procedures, from simple fixation to complex reconstructive surgery.
-        </p>
+      <div className="flex flex-col xl:flex-row gap-16 items-center justify-between max-w-7xl mx-auto mb-20">
+        
+        <div className="flex-1 xl:max-w-2xl text-left">
+          <span className="text-primary font-bold tracking-[0.2em] text-[10px] uppercase mb-6 block">Surgical Mapping</span>
+          <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-on-surface leading-[1.1] mb-6 tracking-tighter">
+            Targeted Platforms for Every <span className="text-primary-container">Intervention</span>
+          </h2>
+          <p className="text-lg text-on-surface-variant/70 leading-relaxed font-body">
+            Our specialized product categories cover the full spectrum of operative demands. Whether stabilizing a traumatic fracture, reconstructing a degenerated joint, or restoring spinal alignment, we provide intuitive modular sets designed for the surgeon's workflow.
+          </p>
+        </div>
+
+        <div className="flex-1 w-full flex justify-end">
+          <div className="relative w-full max-w-md h-[250px] lg:h-[300px] rounded-3xl overflow-hidden shadow-lg shadow-primary/5">
+            <Image 
+              src="/images/surgical-mapping.jpg" 
+              alt="Surgical Planning" 
+              fill 
+              sizes="(max-width: 1024px) 100vw, 500px"
+              className="object-cover" 
+            />
+            <div className="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+          </div>
+        </div>
+
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

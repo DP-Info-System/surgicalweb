@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
+import Image from 'next/image';
 import AnatomicalModel from './AnatomicalModel';
 import { Target, Activity, ShieldCheck, Microscope, Layers, ArrowRight, Heart, Bone, Brain, Footprints } from 'lucide-react';
 import { ANATOMICAL_HOTSPOTS } from '../constants';
@@ -46,11 +47,11 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
             <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Anatomical Portfolio</h3>
           </div>
           <h2 className="text-5xl lg:text-[70px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-6">
-            Explore Our <br className="hidden lg:block"/>
-            <span className="text-primary inline-block transform -skew-x-6">Surgical</span> Solutions
+            Explore Medical <br className="hidden lg:block"/>
+            <span className="text-primary inline-block transform -skew-x-6">Implant</span> Platforms
           </h2>
           <p className="text-lg text-on-surface-variant/70 leading-relaxed font-body font-medium">
-            Select a region on the anatomical model to discover procedures-specific systems for trauma, spine, and joint reconstruction.
+            Select a region on the anatomical model to discover specialized devices mapped to traumatology, spine, and joint preservation.
           </p>
         </motion.div>
 
@@ -141,6 +142,27 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
                           }`}>
                             {item.description}
                           </p>
+                          
+                          {/* DYNAMIC IMAGE PLACEHOLDER FOR SELECTED HOTSPOT */}
+                          <AnimatePresence>
+                            {activeId === item.id && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                                animate={{ opacity: 1, height: 320, marginTop: 12 }}
+                                exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                className="relative w-full h-80 rounded-lg overflow-hidden bg-slate-50/10"
+                              >
+                                <Image 
+                                  src={`/images/anatomy-${item.id}.jpg`} 
+                                  alt={item.label} 
+                                  fill 
+                                  sizes="(max-width: 768px) 100vw, 500px"
+                                  className="object-contain" 
+                                />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                          
                         </div>
                         <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                           activeId === item.id 

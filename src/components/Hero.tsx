@@ -10,7 +10,7 @@ const slides = [
     id: 'trauma',
     title: 'Trauma & Fixation',
     subtitle: 'Precision Engineering',
-    description: 'Advanced plating and nailing systems designed for complex fracture management and rapid recovery.',
+    description: 'Advanced plating and nailing paradigms designed for complex fracture management, delivering rapid recovery and restoring normal load-bearing.',
     color: 'from-blue-600 to-blue-400',
     icon: Activity,
     bgImage: '/images/trauma.jpg',
@@ -19,7 +19,7 @@ const slides = [
     id: 'spine',
     title: 'Spinal Innovation',
     subtitle: 'Biomechanical Stability',
-    description: 'Next-generation disc replacement and stabilization systems for degenerative spinal conditions.',
+    description: 'Next-generation disc replacement and dynamic stabilization therapies addressing degenerative conditions to preserve natural motion.',
     color: 'from-indigo-600 to-indigo-400',
     icon: Layers,
     bgImage: '/images/spine.jpg',
@@ -28,7 +28,7 @@ const slides = [
     id: 'sports',
     title: 'Sports Medicine',
     subtitle: 'Minimally Invasive',
-    description: 'High-fidelity arthroscopy instruments and implants for shoulder, knee, and hip reconstruction.',
+    description: 'High-fidelity arthroscopy instruments and soft-tissue anchors tailored for critical joint preservation and accelerated rehabilitation.',
     color: 'from-cyan-600 to-cyan-400',
     icon: Bone,
     bgImage: '/images/sports.jpg',
@@ -64,6 +64,7 @@ export default function Hero() {
               src={slide.bgImage}
               alt={slide.title}
               fill
+              sizes="100vw"
               className="object-cover contrast-110 brightness-75"
               priority
             />
