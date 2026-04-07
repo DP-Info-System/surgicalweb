@@ -124,7 +124,7 @@ export default function Header() {
           {['Solutions', 'About'].map((item) => (
             <a
               key={item}
-              href="#"
+              href={`/${item.toLowerCase()}`}
               className="text-on-surface font-extrabold hover:text-primary transition-colors text-[15px]"
             >
               {item}
@@ -143,7 +143,7 @@ export default function Header() {
             />
           </div>
 
-          <a href="#" className="bg-primary text-white font-bold text-[13px] tracking-wide px-10 py-3 rounded-sm hover:bg-primary/90 transition-all shadow-sm">
+          <a href="/contact" className="bg-primary text-white font-bold text-[13px] tracking-wide px-10 py-3 rounded-sm hover:bg-primary/90 transition-all shadow-sm">
             Contact
           </a>
         </div>

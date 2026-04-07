@@ -27,10 +27,15 @@ export default function Footer() {
         <div>
           <h5 className="font-headline font-bold text-sm text-slate-800 dark:text-slate-200 mb-4">Company</h5>
           <ul className="space-y-2">
-            {['Global Support', 'Careers', 'Clinical Trials'].map((item) => (
-              <li key={item}>
-                <a href="#" className="text-slate-500 hover:text-primary transition-colors font-body text-xs tracking-wide hover:underline underline-offset-4">
-                  {item}
+            {[
+              { name: 'About Us', href: '/about' },
+              { name: 'Contact', href: '/contact' },
+              { name: 'Careers', href: '#' },
+              { name: 'Clinical Trials', href: '#' }
+            ].map((item) => (
+              <li key={item.name}>
+                <a href={item.href} className="text-slate-500 hover:text-primary transition-colors font-body text-xs tracking-wide hover:underline underline-offset-4">
+                  {item.name}
                 </a>
               </li>
             ))}

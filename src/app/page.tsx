@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/20">
-      <Header />
       <main className="relative min-h-[calc(100vh-64px)]">
         {/* Main Hero Slider (Pure Branding) */}
         <Hero />
@@ -55,7 +54,6 @@ export default function Home() {
           )}
         </AnimatePresence>
       </main>
-      <Footer />
     </div>
   );
 }
