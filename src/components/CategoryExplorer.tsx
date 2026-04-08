@@ -24,7 +24,7 @@ export default function CategoryExplorer({ onCategoryClick, activeId }: Category
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       </div>
       
-      <div className="max-w-[1920px] mx-auto px-8 relative z-10">
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
         
         {/* Section Header */}
         <motion.div
@@ -35,9 +35,9 @@ export default function CategoryExplorer({ onCategoryClick, activeId }: Category
           className="text-center mb-10 max-w-2xl mx-auto"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-8 h-[1px] bg-primary/30" />
-            <span className="text-primary font-black uppercase tracking-[0.35em] text-[10px]">Quick Navigation</span>
-            <div className="w-8 h-[1px] bg-primary/30" />
+            <div className="h-px w-8" style={{ background: '#E8A020' }} />
+            <span className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: '#E8A020' }}>Quick Navigation</span>
+            <div className="h-px w-8" style={{ background: '#E8A020' }} />
           </div>
           <h2 className="font-headline font-black text-on-surface text-4xl lg:text-5xl tracking-tighter leading-[1.1]">
             Anatomical <span className="text-primary">Explorer</span>
@@ -62,9 +62,10 @@ export default function CategoryExplorer({ onCategoryClick, activeId }: Category
                 onClick={() => onCategoryClick(region.id)}
                 className={`group relative flex flex-col items-center gap-3 p-5 lg:p-6 rounded-2xl border transition-all duration-300 text-center overflow-hidden ${
                   isActive
-                    ? 'bg-primary text-white border-primary shadow-xl shadow-primary/25 scale-[1.03]'
+                    ? 'text-white border-transparent shadow-xl scale-[1.03]'
                     : 'bg-white text-on-surface border-outline-variant/15 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1'
                 }`}
+                style={isActive ? { background: '#E8A020', boxShadow: '0 8px 32px rgba(232,160,32,0.35)' } : {}}
               >
                 {/* Active glow background */}
                 {isActive && (

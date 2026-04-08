@@ -28,11 +28,12 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
 
   return (
     <section className="relative pt-12 pb-16 bg-white overflow-hidden">
-      {/* Clinical Atmospheric Depth (Radial Wash) */}
-      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-primary/20 to-transparent" />
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/5 rounded-full blur-[160px] opacity-60 pointer-events-none" />
-      
-      <div className="max-w-[1920px] mx-auto px-8 relative z-10">
+      {/* Atmospheric depth */}
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(0,71,169,0.2), transparent)' }} />
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/4 rounded-full blur-[160px] opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
+
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 relative z-10">
         
         {/* Title Section */}
         <motion.div
@@ -43,12 +44,12 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
           className="mb-6 lg:mb-8 max-w-5xl"
         >
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-[1px] bg-primary/30" />
-            <h3 className="text-primary font-black uppercase tracking-[0.4em] text-[10px]">Anatomical Portfolio</h3>
+            <div className="h-px w-10" style={{ background: '#E8A020' }} />
+            <h3 className="font-black uppercase tracking-[0.35em] text-[10px]" style={{ color: '#E8A020' }}>Anatomical Portfolio</h3>
           </div>
-          <h2 className="text-5xl lg:text-[70px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-6">
-            Explore Medical <br className="hidden lg:block"/>
-            <span className="text-primary inline-block transform -skew-x-6">Implant</span> Platforms
+          <h2 className="text-5xl lg:text-[68px] font-headline font-black text-on-surface leading-[0.95] tracking-tighter mb-6">
+            Explore Medical <br className="hidden lg:block" />
+            <span className="text-primary">Implant</span> Platforms
           </h2>
           <p className="text-lg text-on-surface-variant/70 leading-relaxed font-body font-medium">
             Select a region on the anatomical model to discover specialized devices mapped to traumatology, spine, and joint preservation.
@@ -70,17 +71,18 @@ export default function BodyExplorerSection({ onHotspotClick, activeId }: BodyEx
               <button
                 key={cat.id}
                 onClick={() => setActiveFilter(cat.id)}
-                className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 text-sm font-semibold ${
+                className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-300 text-[13px] font-semibold ${
                   isActive
-                    ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
+                    ? 'text-white border-transparent shadow-lg'
                     : 'bg-white text-on-surface-variant border-outline-variant/20 hover:border-primary/30 hover:text-primary'
                 }`}
+                style={isActive ? { background: '#E8A020', boxShadow: '0 4px 16px rgba(232,160,32,0.3)' } : {}}
               >
-                <Icon className={`w-4 h-4 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
+                <Icon className={`w-3.5 h-3.5 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
                 {cat.label}
                 {cat.id !== 'all' && (
                   <span className={`ml-1 text-[10px] px-1.5 py-0.5 rounded-full ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-surface-container-high text-on-surface-variant/60'
+                    isActive ? 'bg-white/25 text-white' : 'bg-surface-container-high text-on-surface-variant/60'
                   }`}>
                     {ANATOMICAL_HOTSPOTS.filter(h => h.category === cat.id).length}
                   </span>

@@ -7,11 +7,14 @@ import { ArrowRight, Microscope as Stethoscope } from 'lucide-react';
 
 export default function SurgicalMapping() {
   return (
-    <section className="max-w-[1920px] mx-auto px-8 py-32 bg-white">
-      <div className="flex flex-col xl:flex-row gap-16 items-center justify-between max-w-7xl mx-auto mb-20">
+    <section className="relative max-w-[1440px] mx-auto px-6 lg:px-12 py-28 bg-white overflow-hidden">
+      <div className="flex flex-col xl:flex-row gap-16 items-center justify-between mb-20">
         
         <div className="flex-1 xl:max-w-2xl text-left">
-          <span className="text-primary font-bold tracking-[0.2em] text-[10px] uppercase mb-6 block">Surgical Mapping</span>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-8" style={{ background: '#E8A020' }} />
+            <span className="text-[10px] font-black uppercase tracking-[0.3em]" style={{ color: '#E8A020' }}>Surgical Mapping</span>
+          </div>
           <h2 className="text-4xl lg:text-5xl font-headline font-extrabold text-on-surface leading-[1.1] mb-6 tracking-tighter">
             Targeted Platforms for Every <span className="text-primary-container">Intervention</span>
           </h2>
