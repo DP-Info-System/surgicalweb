@@ -3,9 +3,11 @@ version: '3.8'
 services:
   app:
     build: .
-    ports:
-      - "3002:3002"
-    environment:
-      - NODE_ENV=production
-      - PORT=3002
-      - HOSTNAME=0.0.0.0
+    container_name: shahwatweb
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shahwat.rule=Host(`sh.dpinfoserver.co.in`)
+      - traefik.http.routers.shahwat.entrypoints=websecure
+      - traefik.http.routers.shahwat.tls=true
+      - traefik.http.services.shahwat.loadbalancer.server.port=3002
