@@ -6,7 +6,6 @@ build/
 
 # production
 /vendor/
-/public/hotspots/ # any temporary assets
 .env
 .env.local
 .env.development.local

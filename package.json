@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3002",
     "preview": "next start",
     "clean": "rm -rf .next dist",
     "lint": "next lint"
