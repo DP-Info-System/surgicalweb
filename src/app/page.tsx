@@ -10,7 +10,7 @@ import Stats from '../components/Stats';
 import Footer from '../components/Footer';
 import ProductPanel from '../components/ProductPanel';
 import Features from '../components/Features';
-import SurgicalMapping from '../components/SurgicalMapping';
+import PartnershipSection from '../components/PartnershipSection';
 
 export default function Home() {
   const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(null);
@@ -41,8 +41,8 @@ export default function Home() {
         {/* Detailed Features & Technology sections */}
         <Features />
         
-        {/* Procedural Mapping Grid */}
-        <SurgicalMapping />
+        {/* Strategic Global Partnerships Section (Replacing SurgicalMapping) */}
+        <PartnershipSection />
         
         {/* Product Panel Layer */}
         <AnimatePresence>
@@ -50,6 +50,7 @@ export default function Home() {
             <ProductPanel 
               bodyPartId={selectedBodyPart} 
               onClose={handleClosePanel} 
+              onPrimaryClick={handleHotspotClick}
             />
           )}
         </AnimatePresence>
