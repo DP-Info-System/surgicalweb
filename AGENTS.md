@@ -1,13 +1,14 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This project is a **Next.js** application focused on medical and orthopedic solutions (**Shashwat - Precision Orthopedic Solutions**).
+This project is a **Next.js** application focused on medical and orthopedic solutions (**Shashwat Enterprise - Precision Orthopedic Solutions**).
 - **`src/app/`**: Contains the Next.js App Router pages and global layouts.
 - **`src/components/`**: Houses reusable UI components like `Header.tsx`, `Hero.tsx`, and specialized medical visualizers like `AnatomicalModel.tsx` and `BodyExplorerSection.tsx`.
 - **`src/constants.ts`**: Centralizes shared data and configuration used throughout the application.
 - **`public/images/`**: Contains visual assets used across the site.
 
 ## Build, Test, and Development Commands
+**Requirement**: Node.js **>= 20.9.0** is required for Next.js.
 Use the following commands for local development:
 - **`npm run dev`**: Start the development server (runs `next dev`).
 - **`npm run build`**: Create an optimized production build (runs `next build`).
