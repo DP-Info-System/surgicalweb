@@ -2,6 +2,7 @@
 
 import { Linkedin, Twitter, Youtube, Mail, Phone, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const footerLinks = [
   {
@@ -79,13 +80,17 @@ export default function Footer() {
         {/* Brand column */}
         <div className="lg:col-span-2 space-y-5">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 grid grid-cols-2 gap-[3px] rotate-45">
-              <div className="bg-primary rounded-sm" />
-              <div className="rounded-sm" style={{ background: '#E8A020' }} />
-              <div className="rounded-sm opacity-70" style={{ background: '#E8A020' }} />
-              <div className="bg-primary/80 rounded-sm" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img
+                src="/logo.png"
+                alt="Shashwat Enterprise Logo"
+                className="w-full h-full object-contain opacity-90"
+              />
             </div>
-            <span className="font-headline font-black text-white text-[20px]">Shashwat</span>
+            <div className="flex flex-col">
+              <span className="font-headline font-black text-white text-[20px] leading-none">Shashwat</span>
+              <span className="font-headline font-bold text-primary text-[16px] leading-none mt-1">Enterprise</span>
+            </div>
           </div>
           <p className="text-white/40 text-[13px] leading-relaxed max-w-xs">
             Elevating surgical standards through curated anatomical precision and advanced biotechnological engineering.
@@ -137,7 +142,7 @@ export default function Footer() {
       <div className="border-t border-white/8">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-5 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-white/25 text-[11px] tracking-wide">
-            © 2024 Shashwat Global. Professional Medical Use Only. All rights reserved.
+            © 2024 Shashwat Enterprise Global. Professional Medical Use Only. All rights reserved.
           </p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service', 'Cookie Settings'].map((item) => (

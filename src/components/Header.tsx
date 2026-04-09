@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ORTHOPEDIC_CATEGORIES, OTHER_SERVICES } from '../constants';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
@@ -44,20 +45,19 @@ export default function Header() {
 
           {/* ── Logo ── */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="relative w-9 h-9">
-              <div className="absolute inset-0 grid grid-cols-2 gap-[3px] items-center justify-center rotate-45 group-hover:rotate-[50deg] transition-transform duration-500">
-                <div className="w-full h-full bg-primary rounded-sm shadow-sm" />
-                <div className="w-full h-full bg-accent rounded-sm shadow-sm" />
-                <div className="w-full h-full bg-accent/70 rounded-sm shadow-sm" />
-                <div className="w-full h-full bg-primary/80 rounded-sm shadow-sm" />
-              </div>
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img
+                src="/logo.png"
+                alt="Shashwat Enterprise Logo"
+                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-[22px] font-black text-on-surface tracking-tight font-headline leading-none">
+              <span className="text-[28px] font-black text-on-surface tracking-tight font-headline leading-none">
                 Shashwat
               </span>
-              <span className="text-[9px] font-bold text-primary/50 uppercase tracking-[0.25em] leading-none mt-0.5">
-                Surgical Systems
+              <span className="text-[16px] font-bold text-primary tracking-tight font-headline leading-none mt-1">
+                Enterprise
               </span>
             </div>
           </Link>
@@ -232,7 +232,10 @@ export default function Header() {
             >
               {/* Mobile Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-outline-variant/10">
-                <span className="font-headline font-black text-on-surface text-xl">Shashwat</span>
+                <div className="flex flex-col">
+                  <span className="font-headline font-black text-on-surface text-xl leading-none">Shashwat</span>
+                  <span className="font-headline font-bold text-primary text-base leading-none mt-1">Enterprise</span>
+                </div>
                 <button
                   onClick={() => setMobileOpen(false)}
                   className="w-9 h-9 flex items-center justify-center rounded-lg border border-outline-variant/20 text-on-surface hover:text-primary hover:border-primary/30 transition-all"
