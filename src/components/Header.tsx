@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 export default function Header() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(ORTHOPEDIC_CATEGORIES[0]);
+  const [activeCategory, setActiveCategory] = useState(ORTHOPEDIC_CATEGORIES[1]); // Default to Arthroscopy
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
@@ -93,85 +93,107 @@ export default function Header() {
                     initial={{ opacity: 0, y: 8, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: 'easeOut' }}
-                    className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[820px] bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,71,169,0.15)] border border-outline-variant/15 overflow-hidden flex"
+                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[980px] bg-white rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.12)] border border-outline-variant/15 overflow-hidden flex"
                   >
-                    {/* Left: Categories */}
-                    <div className="w-[260px] bg-surface-container-low p-6 border-r border-outline-variant/10 shrink-0">
-                      <h3 className="text-[9px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 mb-4">
-                        Orthopedic
-                      </h3>
-                      <div className="space-y-0.5">
+                    {/* Left: Meril-style Grid Sidebar */}
+                    <div className="w-[360px] bg-[#F8FAFC] p-8 border-r border-[#E2E8F0] shrink-0">
+                      <div className="mb-6 px-4">
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40">
+                          Orthopedic
+                        </h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
                         {ORTHOPEDIC_CATEGORIES.map((cat) => (
                           <button
                             key={cat.id}
                             onMouseEnter={() => setActiveCategory(cat)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-left ${
+                            className={`flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all duration-300 group ${
                               activeCategory.id === cat.id
-                                ? 'bg-white text-primary shadow-sm border border-primary/10'
-                                : 'text-on-surface-variant hover:bg-white/60 hover:text-primary'
+                                ? 'bg-[#EAF2F9] shadow-sm'
+                                : 'hover:bg-white/60 hover:shadow-sm'
                             }`}
                           >
-                            <cat.icon className="w-4 h-4 shrink-0" />
-                            <span className="text-[13px] font-semibold">{cat.name}</span>
-                            {activeCategory.id === cat.id && (
-                              <ArrowRight className="w-3 h-3 ml-auto text-primary" />
-                            )}
+                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
+                              activeCategory.id === cat.id ? 'shadow-inner' : ''
+                            }`}>
+                              <cat.icon className={`w-6 h-6 ${activeCategory.id === cat.id ? 'text-[#3A75B4]' : 'text-gray-400'}`} />
+                            </div>
+                            <span className={`text-[11px] text-center leading-tight font-bold transition-colors ${
+                              activeCategory.id === cat.id ? 'text-[#3A75B4]' : 'text-gray-500'
+                            }`}>
+                              {cat.name}
+                            </span>
                           </button>
                         ))}
                       </div>
 
-                      <div className="mt-6 pt-5 border-t border-outline-variant/10">
-                        <h3 className="text-[9px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 mb-3">
+                      <div className="mt-8 pt-6 border-t border-[#E2E8F0] px-4">
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4">
                           Other Services
                         </h3>
-                        <div className="space-y-1.5">
+                        <div className="grid grid-cols-2 gap-2">
                           {OTHER_SERVICES.slice(0, 4).map((service) => (
-                            <button key={service.name} className="flex items-center gap-2 text-[12px] text-on-surface-variant hover:text-primary transition-colors font-medium">
-                              <service.icon className="w-3 h-3" />
-                              <span>{service.name}</span>
+                            <button 
+                              key={service.name} 
+                              className="flex items-center gap-2 p-2 rounded-xl text-[11px] text-gray-500 hover:bg-white hover:text-primary transition-all font-bold"
+                            >
+                              <service.icon className="w-3.5 h-3.5" />
+                              <span className="truncate">{service.name}</span>
                             </button>
                           ))}
                         </div>
                       </div>
                     </div>
 
-                    {/* Right: Subcategory products */}
-                    <div className="flex-1 p-7 bg-white">
-                      <div className="flex items-center justify-between mb-5">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-primary/8 rounded-lg border border-primary/10">
-                            <activeCategory.icon className="w-5 h-5 text-primary" />
+                    {/* Right: Detailed Content Panel */}
+                    <div className="flex-1 flex flex-col bg-white">
+                      
+                      {/* Subcategory Header */}
+                      <div className="p-10 pb-8 flex items-center justify-between border-b border-[#E2E8F0]">
+                        <div className="flex items-center gap-5">
+                          <div className="w-14 h-14 bg-[#EAF2F9] rounded-2xl flex items-center justify-center shadow-sm">
+                            <activeCategory.icon className="w-7 h-7 text-[#3A75B4]" />
                           </div>
                           <div>
-                            <h4 className="text-[15px] font-headline font-bold text-on-surface">{activeCategory.name}</h4>
-                            <p className="text-[10px] text-on-surface-variant/50">{activeCategory.items?.length ?? 0} product lines</p>
+                            <h4 className="text-[26px] font-headline font-black text-[#0D1B3E] tracking-tight">{activeCategory.name}</h4>
+                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{activeCategory.items?.length ?? 0} specialized product lines</p>
                           </div>
                         </div>
-                        <button className="text-[11px] font-bold text-primary flex items-center gap-1 hover:underline underline-offset-2">
-                          View All <ExternalLink className="w-3 h-3" />
+                        <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-primary/10 text-primary font-black text-xs uppercase tracking-widest hover:bg-primary/5 transition-colors">
+                          View All <ExternalLink className="w-3.5 h-3.5 ml-1" />
                         </button>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-                        {activeCategory.items.map((item) => (
-                          <a
-                            key={item.name}
-                            href="#"
-                            className="group flex flex-col py-3 px-3 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/20"
-                          >
-                            <span className="text-[13px] font-bold text-on-surface group-hover:text-primary transition-colors">{item.name}</span>
-                            <span className="text-[10px] text-on-surface-variant/50 mt-0.5">Advanced surgical solutions</span>
-                          </a>
-                        ))}
+                      {/* Product Grid */}
+                      <div className="flex-1 p-10 pt-8 overflow-y-auto">
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                          {activeCategory.items.map((item) => (
+                            <Link
+                              key={item.name}
+                              href="#"
+                              className="group flex flex-col py-4 px-5 rounded-[1.5rem] hover:bg-[#F8FAFC] transition-all border border-transparent hover:border-[#E2E8F0]"
+                            >
+                              <span className="text-[15px] font-bold text-gray-800 group-hover:text-[#3A75B4] transition-colors">{item.name}</span>
+                              <span className="text-[11px] text-gray-400 mt-1 font-medium">Advanced surgical solutions</span>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
 
-                      <div className="mt-5 p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl border border-primary/10 flex items-center justify-between">
-                        <div>
-                          <p className="text-[12px] font-bold text-on-surface">Need clinical assistance?</p>
-                          <p className="text-[10px] text-on-surface-variant/60">Our specialists are available 24/7</p>
+                      {/* Clinical Assistance Banner */}
+                      <div className="p-8 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between mx-4 mb-4 rounded-[2rem]">
+                        <div className="flex items-center gap-5">
+                          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                            <Image src="/logo.png" alt="Shashwat" width={24} height={24} className="opacity-80" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-black text-[#0D1B3E] leading-tight">Need clinical assistance?</p>
+                            <p className="text-[11px] text-gray-500 font-medium">Our specialists are available 24/7 for consultation.</p>
+                          </div>
                         </div>
-                        <Link href="/contact" className="px-4 py-2 bg-primary text-white text-[10px] font-bold rounded-lg hover:bg-primary-container transition-colors">
+                        <Link href="/contact" className="px-8 py-3 bg-[#0D1B3E] text-white text-xs font-black uppercase tracking-[0.2em] rounded-xl hover:bg-primary transition-all shadow-lg shadow-primary/20">
                           Contact Support
                         </Link>
                       </div>
