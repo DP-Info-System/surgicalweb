@@ -1,18 +1,62 @@
 'use client';
 
-import { Search, ChevronDown, ArrowRight, Menu, X, ExternalLink } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Search, ChevronDown, ArrowRight, Menu, X, ExternalLink, ChevronRight, FileText, HeartPulse, Activity, Bone, Stethoscope, Ear, Microscope, Bot, Bed, Scissors, Layers, ShoppingBag } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ORTHOPEDIC_CATEGORIES, OTHER_SERVICES } from '../constants';
+import { PRODUCT_DATA } from '../data/products';
 import Link from 'next/link';
 import Image from 'next/image';
 
+const CATEGORY_ICONS: Record<string, any> = {
+  'Overview': FileText,
+  'Cardiac Surgery': HeartPulse,
+  'Vascular Intervention': Activity,
+  'Endo-Surgery': Stethoscope,
+  'Orthopedics': Bone,
+  'ENT': Ear,
+  'Diagnostics': Microscope,
+  'Surgical Robots': Bot,
+  'Hospital Furniture': Bed,
+  'General Instruments': Scissors,
+  'Surgical Products': Layers,
+  'Orthobiologics': ShoppingBag,
+};
+
 export default function Header() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(ORTHOPEDIC_CATEGORIES[1]); // Default to Arthroscopy
+  const closeTimeoutRef = useRef<NodeJS.Timeout|null>(null);
+  
+  // Navigation State
+  const [activeCategory, setActiveCategory] = useState<any>(null);
+  const [activeSubCategory, setActiveSubCategory] = useState<any>(null);
+  const [activeSubSubCategory, setActiveSubSubCategory] = useState<any>(null);
+  
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+
+  // Safe hover handlers
+  const handleProductsEnter = () => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setIsProductsOpen(true);
+  };
+
+  const handleProductsLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsProductsOpen(false);
+    }, 300); // 300ms buffer to allow moving mouse to the menu
+  };
+
+  // Initialize with Overview
+  useEffect(() => {
+    if (!activeCategory) {
+      setActiveCategory({ name: 'Overview' });
+    }
+    // Cleanup timeout on unmount
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -78,8 +122,8 @@ export default function Header() {
             {/* Products Dropdown */}
             <div
               className="relative h-20 flex items-center"
-              onMouseEnter={() => setIsProductsOpen(true)}
-              onMouseLeave={() => setIsProductsOpen(false)}
+              onMouseEnter={handleProductsEnter}
+              onMouseLeave={handleProductsLeave}
             >
               <button className="relative flex items-center gap-1.5 text-on-surface font-semibold hover:text-primary transition-colors text-[14px] group py-1">
                 Products
@@ -94,109 +138,203 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[980px] bg-white rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.12)] border border-outline-variant/15 overflow-hidden flex"
+                    className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1100px] bg-white rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.12)] border border-outline-variant/15 overflow-hidden flex"
+                    onMouseEnter={() => {
+                      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+                    }}
+                    onMouseLeave={() => {
+                      setActiveSubCategory(null);
+                      setActiveSubSubCategory(null);
+                      handleProductsLeave();
+                    }}
                   >
-                    {/* Left: Meril-style Grid Sidebar */}
-                    <div className="w-[360px] bg-[#F8FAFC] p-8 border-r border-[#E2E8F0] shrink-0">
-                      <div className="mb-6 px-4">
+                    {/* Level 1: Sidebar (Main Categories) */}
+                    <div className="w-[280px] bg-[#F8FAFC] p-6 border-r border-[#E2E8F0] shrink-0">
+                      <div className="mb-4 px-4">
                         <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40">
-                          Orthopedic
+                          Main Categories
                         </h3>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-3">
-                        {ORTHOPEDIC_CATEGORIES.map((cat) => (
+                      <div className="flex flex-col gap-1">
+                        {/* Overview Item */}
+                        <button
+                          onMouseEnter={() => {
+                            setActiveCategory({ name: 'Overview' });
+                            setActiveSubCategory(null);
+                            setActiveSubSubCategory(null);
+                          }}
+                          className={`flex items-center gap-4 p-3.5 rounded-2xl transition-all duration-300 group ${
+                            activeCategory?.name === 'Overview'
+                              ? 'bg-white shadow-md shadow-primary/5 ring-1 ring-primary/5'
+                              : 'hover:bg-white/60 hover:shadow-sm'
+                          }`}
+                        >
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
+                            activeCategory?.name === 'Overview' ? 'text-primary' : 'text-gray-400'
+                          }`}>
+                            <FileText className="w-5 h-5" />
+                          </div>
+                          <span className={`text-[13px] font-bold transition-colors ${
+                            activeCategory?.name === 'Overview' ? 'text-[#3A75B4]' : 'text-gray-500'
+                          }`}>
+                            Overview
+                          </span>
+                        </button>
+
+                        {PRODUCT_DATA.map((cat) => (
                           <button
-                            key={cat.id}
-                            onMouseEnter={() => setActiveCategory(cat)}
-                            className={`flex flex-col items-center justify-center gap-3 p-4 rounded-3xl transition-all duration-300 group ${
-                              activeCategory.id === cat.id
-                                ? 'bg-[#EAF2F9] shadow-sm'
+                            key={cat.name}
+                            onMouseEnter={() => {
+                              setActiveCategory(cat);
+                              setActiveSubCategory(null);
+                              setActiveSubSubCategory(null);
+                            }}
+                            className={`flex items-center gap-4 p-3.5 rounded-2xl transition-all duration-300 group ${
+                              activeCategory?.name === cat.name
+                                ? 'bg-white shadow-md shadow-primary/5 ring-1 ring-primary/5'
                                 : 'hover:bg-white/60 hover:shadow-sm'
                             }`}
                           >
-                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
-                              activeCategory.id === cat.id ? 'shadow-inner' : ''
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
+                              activeCategory?.name === cat.name ? 'text-primary' : 'text-gray-400'
                             }`}>
-                              <cat.icon className={`w-6 h-6 ${activeCategory.id === cat.id ? 'text-[#3A75B4]' : 'text-gray-400'}`} />
+                              {(() => {
+                                const Icon = CATEGORY_ICONS[cat.name] || Activity;
+                                return <Icon className="w-5 h-5" />;
+                              })()}
                             </div>
-                            <span className={`text-[11px] text-center leading-tight font-bold transition-colors ${
-                              activeCategory.id === cat.id ? 'text-[#3A75B4]' : 'text-gray-500'
+                            <span className={`text-[13px] font-bold transition-colors ${
+                              activeCategory?.name === cat.name ? 'text-[#3A75B4]' : 'text-gray-500'
                             }`}>
                               {cat.name}
                             </span>
                           </button>
                         ))}
                       </div>
-
-                      <div className="mt-8 pt-6 border-t border-[#E2E8F0] px-4">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4">
-                          Other Services
-                        </h3>
-                        <div className="grid grid-cols-2 gap-2">
-                          {OTHER_SERVICES.slice(0, 4).map((service) => (
-                            <button 
-                              key={service.name} 
-                              className="flex items-center gap-2 p-2 rounded-xl text-[11px] text-gray-500 hover:bg-white hover:text-primary transition-all font-bold"
-                            >
-                              <service.icon className="w-3.5 h-3.5" />
-                              <span className="truncate">{service.name}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
                     </div>
 
-                    {/* Right: Detailed Content Panel */}
-                    <div className="flex-1 flex flex-col bg-white">
-                      
-                      {/* Subcategory Header */}
-                      <div className="p-10 pb-8 flex items-center justify-between border-b border-[#E2E8F0]">
-                        <div className="flex items-center gap-5">
-                          <div className="w-14 h-14 bg-[#EAF2F9] rounded-2xl flex items-center justify-center shadow-sm">
-                            <activeCategory.icon className="w-7 h-7 text-[#3A75B4]" />
+                    {/* Level 2 & 3: Dynamic Drill-down columns */}
+                    <div className="flex-1 flex bg-white overflow-hidden min-h-[500px]">
+                      {activeCategory?.name === 'Overview' ? (
+                        /* Overview Summary Panel */
+                        <div className="flex-1 p-10 py-12 flex flex-col gap-8 bg-gradient-to-br from-white to-[#F8FAFC]">
+                          <div className="max-w-2xl">
+                            <h2 className="text-[32px] font-black text-[#0D1B3E] tracking-tight mb-4">
+                              Clinical Excellence & Innovation
+                            </h2>
+                            <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
+                              Explore our comprehensive portfolio of medical devices and surgical solutions across 
+                              multiple clinical specialties. From cardiac interventions to advanced robotics, 
+                              we provide the tools surgeons need for life-saving procedures.
+                            </p>
                           </div>
-                          <div>
-                            <h4 className="text-[26px] font-headline font-black text-[#0D1B3E] tracking-tight">{activeCategory.name}</h4>
-                            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{activeCategory.items?.length ?? 0} specialized product lines</p>
-                          </div>
-                        </div>
-                        <button className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-primary/10 text-primary font-black text-xs uppercase tracking-widest hover:bg-primary/5 transition-colors">
-                          View All <ExternalLink className="w-3.5 h-3.5 ml-1" />
-                        </button>
-                      </div>
 
-                      {/* Product Grid */}
-                      <div className="flex-1 p-10 pt-8 overflow-y-auto">
-                        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                          {activeCategory.items.map((item) => (
-                            <Link
-                              key={item.name}
-                              href="#"
-                              className="group flex flex-col py-4 px-5 rounded-[1.5rem] hover:bg-[#F8FAFC] transition-all border border-transparent hover:border-[#E2E8F0]"
-                            >
-                              <span className="text-[15px] font-bold text-gray-800 group-hover:text-[#3A75B4] transition-colors">{item.name}</span>
-                              <span className="text-[11px] text-gray-400 mt-1 font-medium">Advanced surgical solutions</span>
-                            </Link>
-                          ))}
+                          <div className="grid grid-cols-2 gap-4 flex-1">
+                            {PRODUCT_DATA.slice(0, 6).map((cat) => (
+                              <div key={cat.name} className="p-6 rounded-[2rem] bg-white border border-[#E2E8F0] hover:shadow-xl hover:shadow-primary/5 transition-all group flex flex-col justify-between">
+                                <div className="flex items-center gap-4 mb-4">
+                                  <div className="w-12 h-12 rounded-2xl bg-[#F0F7FF] flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                                    {(() => {
+                                      const Icon = CATEGORY_ICONS[cat.name] || Activity;
+                                      return <Icon className="w-6 h-6" />;
+                                    })()}
+                                  </div>
+                                  <h4 className="font-black text-[#0D1B3E] text-sm">
+                                    {cat.name}
+                                  </h4>
+                                </div>
+                                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors">
+                                  <span>{cat.subCategories.length} Departments</span>
+                                  <ArrowRight className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        /* Hierarchical Drilldown */
+                        <>
+                          {/* Column 2: Sub-categories */}
+                          <div className="w-[240px] border-r border-[#E2E8F0] p-6 flex flex-col gap-1 overflow-y-auto">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4 px-2">
+                              Sub-Category
+                            </h3>
+                            {activeCategory?.subCategories.map((sub: any) => (
+                              <button
+                                key={sub.name}
+                                onMouseEnter={() => {
+                                  setActiveSubCategory(sub);
+                                  setActiveSubSubCategory(null);
+                                }}
+                                className={`flex items-center justify-between w-full text-left p-3 rounded-xl transition-all group ${
+                                  activeSubCategory?.name === sub.name
+                                    ? 'bg-[#F0F7FF] text-primary'
+                                    : 'hover:bg-[#F8FAFC] text-gray-600'
+                                }`}
+                              >
+                                <span className="text-[13px] font-bold truncate pr-2">{sub.name}</span>
+                                <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform ${activeSubCategory?.name === sub.name ? 'translate-x-0.5' : 'opacity-0'}`} />
+                              </button>
+                            ))}
+                          </div>
 
-                      {/* Clinical Assistance Banner */}
-                      <div className="p-8 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between mx-4 mb-4 rounded-[2rem]">
-                        <div className="flex items-center gap-5">
-                          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
-                            <Image src="/logo.png" alt="Shashwat" width={24} height={24} className="opacity-80" />
+                          {/* Column 3: Sub-sub-categories */}
+                          <div className={`w-[240px] border-r border-[#E2E8F0] p-6 flex flex-col gap-1 overflow-y-auto bg-slate-50/30 transition-opacity duration-300 ${activeSubCategory ? 'opacity-100' : 'opacity-30'}`}>
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4 px-2">
+                              Product Group
+                            </h3>
+                            {activeSubCategory?.subSubCategories.map((ss: any) => (
+                              <button
+                                key={ss.name}
+                                onMouseEnter={() => setActiveSubSubCategory(ss)}
+                                className={`flex items-center justify-between w-full text-left p-3 rounded-xl transition-all group ${
+                                  activeSubSubCategory?.name === ss.name
+                                    ? 'bg-[#F0F7FF] text-primary shadow-sm'
+                                    : 'hover:bg-white text-gray-600'
+                                }`}
+                              >
+                                <span className="text-[12px] font-bold truncate pr-2">{ss.name}</span>
+                                <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform ${activeSubSubCategory?.name === ss.name ? 'translate-x-0.5' : 'opacity-0'}`} />
+                              </button>
+                            ))}
                           </div>
-                          <div>
-                            <p className="text-sm font-black text-[#0D1B3E] leading-tight">Need clinical assistance?</p>
-                            <p className="text-[11px] text-gray-500 font-medium">Our specialists are available 24/7 for consultation.</p>
+
+                          {/* Column 4: Products */}
+                          <div className={`flex-1 p-8 flex flex-col gap-1 overflow-y-auto transition-all duration-300 ${activeSubSubCategory ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-2'}`}>
+                            <div className="mb-6">
+                              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-2">
+                                Products
+                              </h3>
+                              {activeSubSubCategory && (
+                                <h4 className="text-[20px] font-black text-[#0D1B3E] tracking-tight">{activeSubSubCategory.name}</h4>
+                              )}
+                            </div>
+                            
+                            <div className="grid grid-cols-1 gap-2">
+                              {activeSubSubCategory?.products.map((prod: string) => (
+                                <Link
+                                  key={prod}
+                                  href="#"
+                                  className="group flex flex-col p-4 rounded-2xl hover:bg-[#F8FAFC] transition-all border border-transparent hover:border-[#E2E8F0]"
+                                >
+                                  <span className="text-[14px] font-bold text-gray-800 group-hover:text-primary transition-colors">{prod}</span>
+                                  <span className="text-[10px] uppercase font-black tracking-widest text-gray-400 mt-1">Medical Grade Solution</span>
+                                </Link>
+                              ))}
+                            </div>
+
+                            {activeSubSubCategory?.products.length === 0 && (
+                              <div className="flex-1 flex flex-col items-center justify-center text-center p-8 opacity-40">
+                                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                                  <Activity className="w-8 h-8 text-slate-400" />
+                                </div>
+                                <p className="text-sm font-bold text-slate-500">Contact us for detailed product list</p>
+                              </div>
+                            )}
                           </div>
-                        </div>
-                        <Link href="/contact" className="px-8 py-3 bg-[#0D1B3E] text-white text-xs font-black uppercase tracking-[0.2em] rounded-xl hover:bg-primary transition-all shadow-lg shadow-primary/20">
-                          Contact Support
-                        </Link>
-                      </div>
+                        </>
+                      )}
                     </div>
                   </motion.div>
                 )}
@@ -306,12 +444,15 @@ export default function Header() {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden ml-4"
                       >
-                        {ORTHOPEDIC_CATEGORIES.map((cat) => (
+                        {PRODUCT_DATA.map((cat) => (
                           <button
-                            key={cat.id}
+                            key={cat.name}
                             className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant font-medium text-[13px] hover:text-primary transition-colors text-left"
                           >
-                            <cat.icon className="w-4 h-4 shrink-0" />
+                            {(() => {
+                              const Icon = CATEGORY_ICONS[cat.name] || Activity;
+                              return <Icon className="w-4 h-4 shrink-0" />;
+                            })()}
                             {cat.name}
                           </button>
                         ))}
