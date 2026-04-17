@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { ShieldCheck, Globe2, Award, ArrowRight, ExternalLink, Zap } from 'lucide-react';
-import Image from 'next/image';
+import { ShieldCheck, Globe2, Award, ArrowRight, Zap } from 'lucide-react';
 import Link from 'next/link';
+
 
 export default function PartnershipSection() {
   return (
@@ -106,7 +106,8 @@ export default function PartnershipSection() {
                 
                 {/* Header / Brand Spot */}
                 <div className="p-10 lg:p-14 border-b border-outline-variant/5 text-center">
-                  <div className="relative w-48 h-12 mx-auto mb-8 opacity-40 group-hover:opacity-100 transition-opacity duration-700 ease-out">
+                  <div className="relative w-48 h-12 mx-auto mb-8 transition-opacity duration-700 ease-out">
+
                     {/* Placeholder for Meril Life Logo */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <span className="text-3xl font-black text-primary tracking-tighter group-hover:scale-105 transition-transform duration-500">Meril</span>
@@ -152,17 +153,10 @@ export default function PartnershipSection() {
 
                 {/* Action Area */}
                 <div className="p-8 lg:p-10 text-center">
-                  <motion.button 
-                    whileHover={{ scale: 1.02, backgroundColor: '#003a8c' }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 bg-primary text-white font-bold rounded-2xl flex items-center justify-center gap-3 shadow-lg hover:shadow-primary/25 group/btn transition-all duration-300"
-                  >
-                    Explore Meril Portfolio
-                    <ExternalLink className="w-4 h-4 transition-transform group-hover/btn:scale-125 group-hover/btn:rotate-12" />
-                  </motion.button>
-                  <p className="text-[10px] text-on-surface-variant/40 mt-4 font-medium uppercase tracking-[0.2em]">
-                    Exclusive Regional Distribution Rights
-                  </p>
+                    <p className="text-[10px] text-on-surface-variant/40 font-medium uppercase tracking-[0.2em]">
+                      Exclusive Regional Distribution Rights
+                    </p>
+
                 </div>
 
               </div>

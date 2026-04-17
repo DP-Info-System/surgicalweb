@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Target, Lightbulb, HeartPulse, Award, Microscope, ArrowRight, CheckCircle } from 'lucide-react';
+import { Target, Lightbulb, HeartPulse, Award, Microscope, ArrowRight, CheckCircle, Building2, Globe, Activity, FileVolume, Map } from 'lucide-react';
+
 import Link from 'next/link';
 
 const VALUES = [
@@ -40,13 +41,15 @@ const VALUES = [
 ];
 
 const TIMELINE = [
-  { year: '2010', title: 'Company Founded', desc: 'Established as a focused orthopedic R&D initiative in Cambridge, MA.' },
-  { year: '2013', title: 'First FDA Clearance', desc: 'Received 510(k) clearance for our inaugural trauma plating system.' },
-  { year: '2016', title: 'Global Expansion', desc: 'Operations expanded across 20 international markets in Europe and Asia.' },
-  { year: '2019', title: '10,000 Surgeries', desc: 'Supported landmark surgical milestone across 400+ partner hospitals.' },
-  { year: '2022', title: 'Digital Atlas Launch', desc: 'Introduced the first fully interactive surgical anatomy mapping platform.' },
-  { year: '2024', title: '50+ Markets', desc: 'Now operating in over 50 countries with 140+ patented device portfolios.' },
+  { year: '2010', tag: 'FOUNDATION', title: 'Company Founded', desc: 'Established as a focused orthopedic R&D initiative in Cambridge, MA.', icon: Building2 },
+  { year: '2013', tag: 'COMPLIANCE', title: 'First FDA Clearance', desc: 'Received 510(k) clearance for our inaugural trauma plating system.', icon: CheckCircle },
+  { year: '2016', tag: 'EXPANSION', title: 'Global Expansion', desc: 'Operations expanded across 20 international markets in Europe and Asia.', icon: Globe },
+  { year: '2019', tag: 'MILESTONE', title: '10,000 Surgeries', desc: 'Supported landmark surgical milestone across 400+ partner hospitals.', icon: Activity },
+  { year: '2022', tag: 'INNOVATION', title: 'Digital Atlas Launch', desc: 'Introduced the first fully interactive surgical anatomy mapping platform.', icon: Map },
+  { year: '2024', tag: 'LEADERSHIP', title: '50+ Markets', desc: 'Now operating in over 50 countries with 140+ patented device portfolios.', icon: FileVolume },
 ];
+
+
 
 const TEAM = [
   { name: 'Dr. Sarah Chen', role: 'Chief Medical Officer', bio: 'Former head of Orthopedics with 20+ years of clinical experience.', initials: 'SC', color: 'from-blue-400 to-blue-600' },
@@ -162,53 +165,144 @@ export default function AboutPage() {
         </section>
 
         {/* ── Timeline ── */}
-        <section>
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="h-px w-10 bg-accent" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em]" style={{ color: '#E8A020' }}>
-                Our Milestones
-              </span>
-              <div className="h-px w-10 bg-accent" />
-            </div>
-            <h2 className="text-3xl lg:text-4xl font-headline font-black text-on-surface">
-              A Decade of Innovation
+        <section className="relative py-20 px-4 overflow-hidden">
+          {/* Section Background: Blueprint Grid */}
+          <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:32px_32px] opacity-40 pointer-events-none" />
+
+          <div className="text-center mb-24 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center justify-center gap-4 mb-6"
+            >
+              <div className="h-[1px] w-12 bg-primary/20" />
+              <span className="text-[11px] font-black uppercase tracking-[0.5em] text-accent">The Clinical Chronicle</span>
+              <div className="h-[1px] w-12 bg-primary/20" />
+            </motion.div>
+            <h2 className="text-5xl lg:text-[64px] font-headline font-black text-on-surface tracking-tighter leading-none mb-4">
+              A Decade of<br />
+              <span className="text-primary italic">Innovation</span>
             </h2>
+            <div className="w-20 h-1.5 bg-primary/10 mx-auto rounded-full overflow-hidden">
+              <motion.div
+                initial={{ x: "-100%" }}
+                whileInView={{ x: "100%" }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                className="w-full h-full bg-primary/60"
+              />
+            </div>
           </div>
 
-          <div className="relative">
-            {/* Center line */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-outline-variant/20 hidden md:block" />
+          <div className="relative max-w-6xl mx-auto">
+            {/* Technological Pathline with Data Pulse */}
+            <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-[1px] bg-slate-200 md:-translate-x-1/2" />
 
-            <div className="space-y-8">
-              {TIMELINE.map((item, i) => (
+            <motion.div
+              initial={{ height: 0 }}
+              whileInView={{ height: '100%' }}
+              viewport={{ once: true }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute left-10 md:left-1/2 top-0 w-[1px] bg-gradient-to-b from-primary via-primary to-accent md:-translate-x-1/2 origin-top"
+            >
+              {/* Animated Data Packets */}
+              {[1, 2, 3].map((i) => (
                 <motion.div
-                  key={item.year}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className={`flex items-center gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                >
-                  <div className={`flex-1 ${i % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                    <div
-                      className={`inline-block bg-white border border-outline-variant/20 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-primary/20 transition-all max-w-sm ${i % 2 === 0 ? 'md:ml-auto' : ''}`}
-                    >
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 block mb-1">{item.year}</span>
-                      <h4 className="text-[16px] font-headline font-bold text-on-surface mb-1">{item.title}</h4>
-                      <p className="text-[13px] text-on-surface-variant/60">{item.desc}</p>
+                  key={i}
+                  animate={{
+                    top: ["0%", "100%"],
+                    opacity: [0, 1, 0]
+                  }}
+                  transition={{
+                    duration: 3 + i,
+                    repeat: Infinity,
+                    delay: i * 1,
+                    ease: "linear"
+                  }}
+                  className="absolute left-[-3px] w-[7px] h-[7px] rounded-full bg-primary/60 blur-[2px] shadow-[0_0_10px_#0047a9]"
+                />
+              ))}
+            </motion.div>
+
+            <div className="space-y-32 relative z-10">
+              {TIMELINE.map((item, i) => (
+                <div key={item.year} className={`relative flex flex-col md:flex-row items-start md:items-center gap-12 md:gap-0 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+
+                  {/* Ghost Typography Anchor */}
+                  <div className={`absolute -top-16 md:top-1/2 md:-translate-y-1/2 select-none pointer-events-none transition-opacity duration-1000 ${i % 2 === 0 ? 'left-0 md:left-[10%]' : 'right-0 md:right-[10%]'}`}>
+                    <span className="text-[140px] md:text-[220px] font-black text-slate-900/[0.03] tracking-tighter block leading-none">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  {/* Milestone Pod v4.0 */}
+                  <motion.div
+                    initial={{ opacity: 0, x: i % 2 === 0 ? 40 : -40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex-1 w-full md:w-auto relative group"
+                  >
+                    <div className={`relative bg-white/60 backdrop-blur-2xl border border-slate-200/60 rounded-[3rem] p-10 md:p-12 shadow-[0_10px_40px_rgba(0,0,0,0.02)] group-hover:shadow-[0_40px_80px_rgba(0,71,169,0.12)] group-hover:border-primary/20 transition-all duration-700 max-w-xl ${i % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
+
+                      {/* Tiered Content Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                        <div className="flex items-center gap-4">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full scale-150 group-hover:bg-primary/20 transition-all duration-700" />
+                            <div className="relative w-16 h-16 rounded-2xl bg-white shadow-[0_10px_25px_rgba(0,0,0,0.05)] flex items-center justify-center text-primary group-hover:scale-110 group-hover:rotate-6 transition-transform duration-700">
+                              <item.icon className="w-8 h-8" />
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-black tracking-[0.3em] text-accent block mb-1">{item.tag}</span>
+                            <h4 className="text-[24px] font-headline font-black text-[#0D1B3E] tracking-tight">{item.title}</h4>
+                          </div>
+                        </div>
+                        <div className="px-5 py-2 rounded-2xl bg-slate-50 border border-slate-100/50 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all">
+                          <span className="text-[18px] font-headline font-black text-primary">{item.year}</span>
+                        </div>
+                      </div>
+
+                      <p className="text-[15px] text-slate-500 leading-relaxed font-medium">
+                        {item.desc}
+                      </p>
+
+                      {/* Technical Detail Strip */}
+                      <div className="mt-8 pt-8 border-t border-slate-100 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-primary/20" />
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Verified Achievement</span>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-primary/0 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                      </div>
                     </div>
+                  </motion.div>
+
+                  {/* Center Chronicle Node */}
+                  <div className="absolute left-10 md:left-1/2 top-4 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 flex items-center justify-center w-0 md:w-20">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: "spring", stiffness: 200 }}
+                      className="relative flex items-center justify-center"
+                    >
+                      <div className="w-6 h-6 rounded-full bg-white shadow-xl border-[6px] border-primary z-10" />
+                      <div className="absolute w-12 h-12 rounded-full bg-primary/10 animate-pulse scale-150" />
+                      <div className="absolute w-full h-[1px] md:w-16 bg-gradient-to-r from-transparent via-primary/20 to-transparent hidden md:block" />
+                    </motion.div>
                   </div>
-                  {/* Center dot */}
-                  <div className="relative shrink-0 hidden md:flex items-center justify-center w-10 h-10">
-                    <div className="w-4 h-4 rounded-full bg-primary border-4 border-white shadow-md" />
-                  </div>
-                  <div className="flex-1" />
-                </motion.div>
+
+                  {/* Empty Spacer */}
+                  <div className="flex-1 hidden md:block" />
+                </div>
               ))}
             </div>
           </div>
         </section>
+
+
 
         {/* ── Core Values ── */}
         <section>

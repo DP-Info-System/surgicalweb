@@ -89,7 +89,6 @@ export default function Footer() {
             </div>
             <div className="flex flex-col">
               <span className="font-headline font-black text-white text-[20px] leading-none">Shashwat</span>
-              <span className="font-headline font-bold text-primary text-[16px] leading-none mt-1">Enterprise</span>
             </div>
           </div>
           <p className="text-white/40 text-[13px] leading-relaxed max-w-xs">

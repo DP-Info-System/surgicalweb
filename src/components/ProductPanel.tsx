@@ -7,9 +7,10 @@ import { ORTHOPEDIC_CATEGORIES, BODY_PART_MAPPING, ANATOMICAL_HOTSPOTS } from '.
 interface ProductPanelProps {
   bodyPartId: string | null;
   onClose: () => void;
+  onPrimaryClick: (id: string) => void;
 }
 
-export default function ProductPanel({ bodyPartId, onClose }: ProductPanelProps) {
+export default function ProductPanel({ bodyPartId, onClose, onPrimaryClick }: ProductPanelProps) {
   if (!bodyPartId) return null;
 
   const categoryIds = BODY_PART_MAPPING[bodyPartId] || [];

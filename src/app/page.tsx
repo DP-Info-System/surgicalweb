@@ -11,6 +11,8 @@ import Footer from '../components/Footer';
 import ProductPanel from '../components/ProductPanel';
 import Features from '../components/Features';
 import PartnershipSection from '../components/PartnershipSection';
+import TrustSection from '../components/TrustSection';
+
 
 export default function Home() {
   const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(null);
@@ -41,8 +43,16 @@ export default function Home() {
         {/* Detailed Features & Technology sections */}
         <Features />
         
-        {/* Strategic Global Partnerships Section (Replacing SurgicalMapping) */}
+        {/* Strategic Global Partnerships Section */}
         <PartnershipSection />
+
+        {/* Why Customers Work With Us (Trust Section) */}
+        <TrustSection />
+
+        {/* Visual Break (White Space) */}
+        <div className="h-32 bg-white relative z-10" />
+
+
         
         {/* Product Panel Layer */}
         <AnimatePresence>

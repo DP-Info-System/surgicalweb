@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PRODUCT_DATA } from '../data/products';
 import Link from 'next/link';
-import Image from 'next/image';
+
 
 const CATEGORY_ICONS: Record<string, any> = {
   'Overview': FileText,
@@ -29,7 +29,7 @@ export default function Header() {
   // Navigation State
   const [activeCategory, setActiveCategory] = useState<any>(null);
   const [activeSubCategory, setActiveSubCategory] = useState<any>(null);
-  const [activeSubSubCategory, setActiveSubSubCategory] = useState<any>(null);
+
   
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -100,9 +100,6 @@ export default function Header() {
               <span className="text-[28px] font-black text-on-surface tracking-tight font-headline leading-none">
                 Shashwat
               </span>
-              <span className="text-[16px] font-bold text-primary tracking-tight font-headline leading-none mt-1">
-                Enterprise
-              </span>
             </div>
           </Link>
 
@@ -138,48 +135,55 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute top-[80px] left-1/2 -translate-x-1/2 w-[1100px] bg-white rounded-[2.5rem] shadow-[0_40px_100px_rgba(0,0,0,0.12)] border border-outline-variant/15 overflow-hidden flex"
+                    className="absolute top-[85px] left-1/2 -translate-x-1/2 w-[calc(100vw-48px)] max-w-[1240px] bg-white/95 backdrop-blur-3xl rounded-[3rem] shadow-[0_40px_120px_rgba(0,0,0,0.18)] border border-white/30 overflow-hidden flex h-[min(720px,calc(100vh-140px))]"
+
+
                     onMouseEnter={() => {
                       if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
                     }}
                     onMouseLeave={() => {
                       setActiveSubCategory(null);
-                      setActiveSubSubCategory(null);
                       handleProductsLeave();
                     }}
+
                   >
                     {/* Level 1: Sidebar (Main Categories) */}
-                    <div className="w-[280px] bg-[#F8FAFC] p-6 border-r border-[#E2E8F0] shrink-0">
-                      <div className="mb-4 px-4">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40">
-                          Main Categories
+                    <div className="w-[300px] bg-slate-100/60 p-6 border-r border-slate-200/50 shrink-0 flex flex-col overflow-y-auto custom-scrollbar">
+                      <div className="mb-6 px-4">
+                        <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-primary/60">
+                          DEPARTMENTS
                         </h3>
                       </div>
                       
                       <div className="flex flex-col gap-1">
-                        {/* Overview Item */}
+
                         <button
                           onMouseEnter={() => {
                             setActiveCategory({ name: 'Overview' });
                             setActiveSubCategory(null);
-                            setActiveSubSubCategory(null);
                           }}
-                          className={`flex items-center gap-4 p-3.5 rounded-2xl transition-all duration-300 group ${
+                          className={`flex items-center gap-4 p-4 rounded-[1.5rem] transition-all duration-500 group relative ${
                             activeCategory?.name === 'Overview'
-                              ? 'bg-white shadow-md shadow-primary/5 ring-1 ring-primary/5'
+                              ? 'bg-white shadow-[0_10px_30px_rgba(0,71,169,0.08)] ring-1 ring-primary/5'
                               : 'hover:bg-white/60 hover:shadow-sm'
                           }`}
                         >
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
-                            activeCategory?.name === 'Overview' ? 'text-primary' : 'text-gray-400'
-                          }`}>
+                          {activeCategory?.name === 'Overview' && (
+                            <motion.div layoutId="activeCat" className="absolute inset-0 bg-white rounded-[1.5rem] -z-10 shadow-[0_10px_30px_rgba(0,71,169,0.08)]" />
+                          )}
+                          <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-500 bg-gradient-to-br ${
+                                activeCategory?.name === 'Overview' 
+                                  ? 'from-primary to-primary-container text-white scale-105 shadow-lg shadow-primary/20' 
+                                  : 'from-slate-100 to-slate-200 text-slate-400 group-hover:scale-110'
+                              }`}>
                             <FileText className="w-5 h-5" />
                           </div>
-                          <span className={`text-[13px] font-bold transition-colors ${
-                            activeCategory?.name === 'Overview' ? 'text-[#3A75B4]' : 'text-gray-500'
+                          <span className={`text-[14px] font-bold transition-all duration-500 ${
+                            activeCategory?.name === 'Overview' ? 'text-primary' : 'text-slate-600 group-hover:text-slate-900'
                           }`}>
                             Overview
                           </span>
+
                         </button>
 
                         {PRODUCT_DATA.map((cat) => (
@@ -188,153 +192,155 @@ export default function Header() {
                             onMouseEnter={() => {
                               setActiveCategory(cat);
                               setActiveSubCategory(null);
-                              setActiveSubSubCategory(null);
                             }}
-                            className={`flex items-center gap-4 p-3.5 rounded-2xl transition-all duration-300 group ${
+                            className={`flex items-center gap-4 p-4 rounded-[1.5rem] transition-all duration-500 group relative ${
                               activeCategory?.name === cat.name
-                                ? 'bg-white shadow-md shadow-primary/5 ring-1 ring-primary/5'
+                                ? 'bg-white shadow-[0_10px_30px_rgba(0,71,169,0.08)] ring-1 ring-primary/5'
                                 : 'hover:bg-white/60 hover:shadow-sm'
                             }`}
                           >
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all bg-white shadow-sm group-hover:scale-110 ${
-                              activeCategory?.name === cat.name ? 'text-primary' : 'text-gray-400'
-                            }`}>
+                            {activeCategory?.name === cat.name && (
+                              <motion.div layoutId="activeCat" className="absolute inset-0 bg-white rounded-[1.5rem] -z-10 shadow-[0_10px_30px_rgba(0,71,169,0.08)]" />
+                            )}
+                            <div className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-500 bg-gradient-to-br ${
+                                  activeCategory?.name === cat.name 
+                                    ? 'from-primary to-primary-container text-white scale-105 shadow-lg shadow-primary/20' 
+                                    : 'from-slate-100 to-slate-200 text-slate-400 group-hover:scale-110'
+                                }`}>
                               {(() => {
                                 const Icon = CATEGORY_ICONS[cat.name] || Activity;
                                 return <Icon className="w-5 h-5" />;
                               })()}
                             </div>
-                            <span className={`text-[13px] font-bold transition-colors ${
-                              activeCategory?.name === cat.name ? 'text-[#3A75B4]' : 'text-gray-500'
+                            <span className={`text-[14px] font-bold transition-all duration-500 ${
+                              activeCategory?.name === cat.name ? 'text-primary' : 'text-slate-600 group-hover:text-slate-900'
                             }`}>
                               {cat.name}
                             </span>
+
                           </button>
                         ))}
                       </div>
+
+
                     </div>
 
-                    {/* Level 2 & 3: Dynamic Drill-down columns */}
-                    <div className="flex-1 flex bg-white overflow-hidden min-h-[500px]">
-                      {activeCategory?.name === 'Overview' ? (
-                        /* Overview Summary Panel */
-                        <div className="flex-1 p-10 py-12 flex flex-col gap-8 bg-gradient-to-br from-white to-[#F8FAFC]">
-                          <div className="max-w-2xl">
-                            <h2 className="text-[32px] font-black text-[#0D1B3E] tracking-tight mb-4">
-                              Clinical Excellence & Innovation
-                            </h2>
-                            <p className="text-gray-500 text-[15px] leading-relaxed font-medium">
-                              Explore our comprehensive portfolio of medical devices and surgical solutions across 
-                              multiple clinical specialties. From cardiac interventions to advanced robotics, 
-                              we provide the tools surgeons need for life-saving procedures.
-                            </p>
-                          </div>
+                    {/* Level 2: Content Canvas */}
+                    <div className="flex-1 bg-white flex flex-col overflow-hidden">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={activeCategory?.name}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                          className="flex-1 h-full overflow-y-auto custom-scrollbar p-8 lg:p-10"
 
-                          <div className="grid grid-cols-2 gap-4 flex-1">
-                            {PRODUCT_DATA.slice(0, 6).map((cat) => (
-                              <div key={cat.name} className="p-6 rounded-[2rem] bg-white border border-[#E2E8F0] hover:shadow-xl hover:shadow-primary/5 transition-all group flex flex-col justify-between">
-                                <div className="flex items-center gap-4 mb-4">
-                                  <div className="w-12 h-12 rounded-2xl bg-[#F0F7FF] flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                                    {(() => {
-                                      const Icon = CATEGORY_ICONS[cat.name] || Activity;
-                                      return <Icon className="w-6 h-6" />;
-                                    })()}
-                                  </div>
-                                  <h4 className="font-black text-[#0D1B3E] text-sm">
-                                    {cat.name}
-                                  </h4>
-                                </div>
-                                <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors">
-                                  <span>{cat.subCategories.length} Departments</span>
-                                  <ArrowRight className="w-3.5 h-3.5" />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        /* Hierarchical Drilldown */
-                        <>
-                          {/* Column 2: Sub-categories */}
-                          <div className="w-[240px] border-r border-[#E2E8F0] p-6 flex flex-col gap-1 overflow-y-auto">
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4 px-2">
-                              Sub-Category
-                            </h3>
-                            {activeCategory?.subCategories.map((sub: any) => (
-                              <button
-                                key={sub.name}
-                                onMouseEnter={() => {
-                                  setActiveSubCategory(sub);
-                                  setActiveSubSubCategory(null);
-                                }}
-                                className={`flex items-center justify-between w-full text-left p-3 rounded-xl transition-all group ${
-                                  activeSubCategory?.name === sub.name
-                                    ? 'bg-[#F0F7FF] text-primary'
-                                    : 'hover:bg-[#F8FAFC] text-gray-600'
-                                }`}
-                              >
-                                <span className="text-[13px] font-bold truncate pr-2">{sub.name}</span>
-                                <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform ${activeSubCategory?.name === sub.name ? 'translate-x-0.5' : 'opacity-0'}`} />
-                              </button>
-                            ))}
-                          </div>
-
-                          {/* Column 3: Sub-sub-categories */}
-                          <div className={`w-[240px] border-r border-[#E2E8F0] p-6 flex flex-col gap-1 overflow-y-auto bg-slate-50/30 transition-opacity duration-300 ${activeSubCategory ? 'opacity-100' : 'opacity-30'}`}>
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-4 px-2">
-                              Product Group
-                            </h3>
-                            {activeSubCategory?.subSubCategories.map((ss: any) => (
-                              <button
-                                key={ss.name}
-                                onMouseEnter={() => setActiveSubSubCategory(ss)}
-                                className={`flex items-center justify-between w-full text-left p-3 rounded-xl transition-all group ${
-                                  activeSubSubCategory?.name === ss.name
-                                    ? 'bg-[#F0F7FF] text-primary shadow-sm'
-                                    : 'hover:bg-white text-gray-600'
-                                }`}
-                              >
-                                <span className="text-[12px] font-bold truncate pr-2">{ss.name}</span>
-                                <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-transform ${activeSubSubCategory?.name === ss.name ? 'translate-x-0.5' : 'opacity-0'}`} />
-                              </button>
-                            ))}
-                          </div>
-
-                          {/* Column 4: Products */}
-                          <div className={`flex-1 p-8 flex flex-col gap-1 overflow-y-auto transition-all duration-300 ${activeSubSubCategory ? 'opacity-100 translate-x-0' : 'opacity-30 translate-x-2'}`}>
-                            <div className="mb-6">
-                              <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#3f4b63]/40 mb-2">
-                                Products
-                              </h3>
-                              {activeSubSubCategory && (
-                                <h4 className="text-[20px] font-black text-[#0D1B3E] tracking-tight">{activeSubSubCategory.name}</h4>
-                              )}
-                            </div>
-                            
-                            <div className="grid grid-cols-1 gap-2">
-                              {activeSubSubCategory?.products.map((prod: string) => (
-                                <Link
-                                  key={prod}
-                                  href="#"
-                                  className="group flex flex-col p-4 rounded-2xl hover:bg-[#F8FAFC] transition-all border border-transparent hover:border-[#E2E8F0]"
+                        >
+                          {activeCategory?.name === 'Overview' ? (
+                            <div className="h-full flex flex-col gap-10">
+                              <div className="max-w-xl">
+                                <motion.div 
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: 0.1 }}
+                                  className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest rounded-full mb-4"
                                 >
-                                  <span className="text-[14px] font-bold text-gray-800 group-hover:text-primary transition-colors">{prod}</span>
-                                  <span className="text-[10px] uppercase font-black tracking-widest text-gray-400 mt-1">Medical Grade Solution</span>
-                                </Link>
-                              ))}
-                            </div>
-
-                            {activeSubSubCategory?.products.length === 0 && (
-                              <div className="flex-1 flex flex-col items-center justify-center text-center p-8 opacity-40">
-                                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                                  <Activity className="w-8 h-8 text-slate-400" />
-                                </div>
-                                <p className="text-sm font-bold text-slate-500">Contact us for detailed product list</p>
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                  Innovating Surgery
+                                </motion.div>
+                                <h2 className="text-[40px] font-black text-[#0D1B3E] tracking-tight mb-4 leading-[1.1]">
+                                  Excellence in <br />
+                                  <span className="text-primary italic">Clinical Care.</span>
+                                </h2>
+                                <p className="text-slate-500 text-[16px] leading-relaxed font-medium">
+                                  Access our comprehensive ecosystem of high-precision surgical instruments, 
+                                  robotic systems, and diagnostic tools designed for modern healthcare.
+                                </p>
                               </div>
-                            )}
-                          </div>
-                        </>
-                      )}
+
+                              <div className="grid grid-cols-3 gap-6">
+                                {PRODUCT_DATA.slice(0, 6).map((cat, i) => (
+                                  <motion.div 
+                                    key={cat.name}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.1 + i * 0.05 }}
+                                    className="p-6 rounded-[2.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-[0_20px_50px_rgba(0,71,169,0.08)] hover:border-primary/20 transition-all duration-500 group cursor-pointer"
+                                  >
+                                    <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500 mb-6">
+                                      {(() => {
+                                        const Icon = CATEGORY_ICONS[cat.name] || Activity;
+                                        return <Icon className="w-6 h-6" />;
+                                      })()}
+                                    </div>
+                                    <h4 className="font-black text-[#0D1B3E] text-sm mb-2">
+                                      {cat.name}
+                                    </h4>
+                                    <p className="text-[11px] text-slate-400 font-medium mb-4 line-clamp-2">
+                                      Leading solutions for complex surgical procedures.
+                                    </p>
+                                    <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-primary/40 group-hover:text-primary transition-colors">
+                                      <span>Explore</span>
+                                      <ArrowRight className="w-3.5 h-3.5" />
+                                    </div>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="space-y-12">
+                              <div className="flex items-end justify-between border-b border-slate-100 pb-8">
+                                <div>
+                                  <h2 className="text-[32px] font-black text-[#0D1B3E] tracking-tight">{activeCategory?.name}</h2>
+                                  <div className="flex items-center gap-2 mt-2">
+                                    <span className="text-[11px] font-bold text-slate-400">Total Portfolio:</span>
+                                    <span className="text-[11px] font-black text-primary px-2 py-0.5 bg-primary/10 rounded-full">
+                                      {activeCategory?.subCategories.length} Departments
+                                    </span>
+                                  </div>
+                                </div>
+                                <button className="text-[12px] font-bold text-primary flex items-center gap-1.5 px-4 py-2 bg-primary/5 rounded-full hover:bg-primary/10 transition-colors">
+                                  View Full Catalogue <ExternalLink className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-x-12 gap-y-10">
+                                {activeCategory?.subCategories.map((sub: any, subIdx: number) => (
+                                  <motion.div 
+                                    key={sub.name}
+                                    initial={{ opacity: 0, y: 15 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: subIdx * 0.1 }}
+                                    className="flex flex-col gap-5"
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div className="w-2 h-8 bg-primary/20 rounded-full" />
+                                      <h3 className="text-[16px] font-black text-[#0D1B3E] tracking-tight uppercase tracking-widest">{sub.name}</h3>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 gap-4">
+                                      {sub.subSubCategories.map((ssr: any) => (
+                                        <div key={ssr.name} className="group cursor-pointer">
+                                          <div className="flex items-start gap-4 p-4 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all duration-300">
+                                            <div className="mt-1 w-1.5 h-1.5 rounded-full bg-slate-200 group-hover:bg-primary group-hover:scale-150 transition-all duration-300 shrink-0" />
+                                            <div>
+                                              <h4 className="text-[13px] font-bold text-slate-700 group-hover:text-primary transition-colors leading-tight mb-1">{ssr.name}</h4>
+                                              <p className="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 line-clamp-1">
+                                                {ssr.products.length > 0 ? ssr.products.join(', ') : 'Specialized Clinical Solutions'}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </motion.div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
                   </motion.div>
                 )}
@@ -442,19 +448,62 @@ export default function Header() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden ml-4"
+                        className="overflow-hidden bg-[#F8FAFC]/50 rounded-2xl mx-2 mb-2"
                       >
                         {PRODUCT_DATA.map((cat) => (
-                          <button
-                            key={cat.name}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant font-medium text-[13px] hover:text-primary transition-colors text-left"
-                          >
-                            {(() => {
-                              const Icon = CATEGORY_ICONS[cat.name] || Activity;
-                              return <Icon className="w-4 h-4 shrink-0" />;
-                            })()}
-                            {cat.name}
-                          </button>
+                          <div key={cat.name} className="border-b border-slate-100 last:border-0">
+                            <button
+                              onClick={() => setActiveCategory(activeCategory?.name === cat.name ? null : cat)}
+                              className={`w-full flex items-center justify-between px-4 py-4 text-[14px] font-bold transition-colors ${
+                                activeCategory?.name === cat.name ? 'text-primary bg-white' : 'text-slate-600 hover:bg-white/50'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                {(() => {
+                                  const Icon = CATEGORY_ICONS[cat.name] || Activity;
+                                  return <Icon className={`w-4 h-4 ${activeCategory?.name === cat.name ? 'text-primary' : 'text-slate-400'}`} />;
+                                })()}
+                                {cat.name}
+                              </div>
+                              <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${activeCategory?.name === cat.name ? 'rotate-90' : ''}`} />
+                            </button>
+                            
+                            <AnimatePresence>
+                              {activeCategory?.name === cat.name && (
+                                <motion.div
+                                  initial={{ height: 0 }}
+                                  animate={{ height: 'auto' }}
+                                  exit={{ height: 0 }}
+                                  className="overflow-hidden bg-white/50"
+                                >
+                                  {cat.subCategories.map((sub: any) => (
+                                    <div key={sub.name} className="pl-11 pr-4 py-2 hover:bg-white transition-colors">
+                                      <p className="text-[12px] font-bold text-slate-800 mb-1">{sub.name}</p>
+                                      <div className="flex flex-wrap gap-1.5 pt-1">
+                                        {sub.subSubCategories.slice(0, 3).map((ssr: any) => (
+                                          <span key={ssr.name} className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-medium">
+                                            {ssr.name}
+                                          </span>
+                                        ))}
+                                        {sub.subSubCategories.length > 3 && (
+                                          <span className="text-[10px] text-primary font-bold">+{sub.subSubCategories.length - 3} more</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                  <div className="px-11 py-4">
+                                    <Link
+                                      href="/solutions"
+                                      onClick={() => setMobileOpen(false)}
+                                      className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-primary hover:gap-3 transition-all"
+                                    >
+                                      View All {cat.name} <ArrowRight className="w-3 h-3" />
+                                    </Link>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         ))}
                       </motion.div>
                     )}
